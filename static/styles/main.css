@@ -1,0 +1,8 @@
+.index-wrapper{
+    justify-content: center;
+}
+
+button, .main-button-style{
+    background-color: #C90404;
+    color: white;
+}

@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Total Issues</title>
-    </head>
-    <body>
-        <h1>Total Issues in Project: {{total_issues}}</h1>
-        <h2>{{created_issue}} was added</h2>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <title>Total Issues</title>
+</head>
+<body>
+    <h1>Total Issues in Project: {{ total_issues }}</h1>
+    {% if issue_titles %}
+        <ul>
+            {% for title in issue_titles %}
+                <li>{{ title }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No issues to display.</p>
+    {% endif %}
+
+    <button class="back-to-main" onclick="window.location.href='/'">Back to main</button>
+</body>
 </html>

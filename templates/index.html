@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <title>Ticket Dashboard</title>
+</head>
+<body>
+    <div class="index-wrapper">
+        <h1>Ticket Dashboard</h1>
+        <div class="buttons index-buttons-wrapper">
+            <button onclick="window.location.href='/total_issues';">View Total Issues</button>
+            <button onclick="window.location.href='/create_issue';">Create Issue</button>
+        </div>
+    </div>
+</body>
+</html>
