@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
+    <title>Ticket Dashboard</title>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="home-page">
+            <i class="fa-solid fa-house"></i>
+        </div>
+        <div class="search-bar nav-middle">
+            <div class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="search-bar-text">Search Knowledge Base</div>
+        </div>
+        <div class="back-arrow" onclick="window.location.href='/'">
+            <i class="fa-solid fa-arrow-left"></i>
+        </div>
+    </div>
+    <div class="ticket-wrapper">
+        <div class="buttons index-buttons-wrapper">
+            <button onclick="window.location.href='/create_issue';">Submit Ticket</button>
+            <button onclick="window.location.href='';">View Open Tickets</button>
+            <button onclick="window.location.href='';">View Closed Tickets</button>
+            <button onclick="window.location.href='/total_issues';">View Total Issues</button>
+        </div>
+    </div>
+</body>
+</html>

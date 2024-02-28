@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
+    <title>TaskForce Tracker</title>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="home-page">
+            <i class="fa-solid fa-house"></i>
+        </div>
+        <div class="search-bar nav-middle">
+            <div class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="search-bar-text">Search Knowledge Base</div>
+        </div>
+        <div class="back-arrow" onclick="window.location.href='/'">
+            <i class="fa-solid fa-arrow-left"></i>
+        </div>
+    </div>
+    <div class="knowledge-base-wrapper">
+    <table>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Tags
+            </th>
+            <th>
+                Last Updated
+            </th>
+            <th>
+                Action Item
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Account Creation Process
+            </th>
+            <th>
+                Explains the account creation process
+            </th>
+            <th>
+                Account Management
+            </th>
+            <th>
+                0/0/0000
+            </th>
+            <th>
+                <div class="action-item-icons">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <i class="fa-solid fa-download"></i>
+                    <i class="fa-solid fa-download"></i>
+                </div>
+            </th>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

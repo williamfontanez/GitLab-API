@@ -6,6 +6,21 @@
     <title>Total Issues</title>
 </head>
 <body>
+    <div class="nav-bar">
+        <div class="home-page">
+            <div class="home-page" onclick="window.location.href='/'">
+            </div>
+        <div class="search-bar nav-middle">
+            <div class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="search-bar-text">Search Tickets</div>
+        </div>
+        <div class="back-arrow" onclick="window.location.href='/ticketd-dashboard'">
+            <i class="fa-solid fa-arrow-left"></i>
+        </div>
+    </div>
+
     <h1>Total Issues in Project: {{ total_issues }}</h1>
     {% if issue_titles %}
         <ul>

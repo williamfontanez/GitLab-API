@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
+    <title>TaskForce Tracker</title>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="home-page">
+            <i class="fa-solid fa-house"></i>
+        </div>
+        <div class="search-bar nav-middle">
+            <div class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="search-bar-text">Find Report</div>
+        </div>
+        <div class="back-arrow" onclick="window.location.href='/'">
+            <i class="fa-solid fa-arrow-left"></i>
+        </div>
+    </div>    
+    <div class="reports-wrapper">
+        <div class="report-tile">
+            <div>A</div><i class="fa-solid fa-chart-simple"></i>
+        </div>
+        <div class="report-tile">
+            <div>B</div><i class="fa-solid fa-chart-pie"></i>
+        </div>
+        <div class="report-tile">
+            <div>C</div><i class="fa-solid fa-chart-line"></i>
+        </div>
+        <div class="report-tile">
+            <div>D</div><i class="fa-solid fa-chart-gantt"></i>
+        </div>
+        <div class="report-tile">
+            <div>E</div><i class="fa-solid fa-chart-column"></i>
+        </div>
+        <div class="report-tile">
+            <div>F/div><i class="fa-solid fa-bug"></i>
+        </div>
+    </div>
+
+</body>
+</html>

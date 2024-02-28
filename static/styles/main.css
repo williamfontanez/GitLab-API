@@ -1,8 +1,146 @@
+:root {
+    --lightGray: #CCCBCB;
+    --tan: #C3B470;
+    --Gray: #8E8D8C;
+    --darkRed: #C90404;
+    --almostBlack: #1D1C1C;
+}
+
+body{
+    background-color: var(--Gray);
+    margin: 0px;
+}
+
+
+button, .main-button-style{
+    background-color: var(--darkRed);
+    color: white;
+}
+
 .index-wrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 25vh 50vh 25vh;
     justify-content: center;
 }
 
-button, .main-button-style{
-    background-color: #C90404;
+.index-buttons-wrapper{
+    display: flex;
+    justify-content: space-around;
+}
+
+.index-wrapper button{
+    height: 12vh;
+    width: 15vw;
+}
+
+.middle-wrapper{
+    height: 50vh;
+    width: 100vw;
+    align-content: center;
+}
+
+.watched-tickets table{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    padding-top: 30vh;
+}
+
+.nav-bar{
+    height: 6vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    background-color: tan;
+}
+
+.nav-bar i {
+    font-size: larger;
+}
+.home-page{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 2.5vw;
+}
+
+.middle-text{
+justify-content: center;
+align-items: center;
+}
+
+.middle-text p{
+    font-size: 20px;
+}
+.search-bar{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    align-content: center;
+    background: white;
+
+}
+
+.back-arrow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-bar i{
+    color: var(--darkRed)
+}
+
+.search-bar-text{
+    padding-left: 1vw;
+}
+
+.ticket-buttons-wrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr ;
+    padding-left: 40vw;
+    padding-top: 30vh;
+    grid-row-gap: 3vh;
+    height: 50vh;
+    width: 20vw;
+}
+
+.reports-wrapper {
+    padding-top: 30vh;
+    padding-left: 15vw;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creates 3 columns */
+    gap: 20px; /* Adjust the gap between the tiles as needed */
+    justify-content: center; /* Horizontally center the grid container if it has a fixed width or max-width */
+    align-content: center; /* Vertically center the grid container if it has a fixed height or max-height */
+    /* Optional: Set a fixed or maximum width for the wrapper to center it */
+     /* Example width, adjust as needed */
+}
+
+.report-tile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the content horizontally within each tile */
+    align-items: center; /* Center the content vertically within each tile */
+    text-align: center; /* Center the text inside the div and i elements */
+    padding: 20px; /* Adjust padding as needed */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */ /* Include padding and border in the element's total width and height */
+    height: 15vh;
+    width: 15vw;
+    background-color: var(--darkRed);
     color: white;
+}
+
+.report-tile i{
+    padding-top: 1vh;
+    color: tan;
+    font-size: 24px;
+}
+
+.middle-text p {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
 }

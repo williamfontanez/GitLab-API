@@ -11,6 +11,30 @@ GITLAB_PROJECT_ID = os.getenv('gitlab_project_id')
 def index():
     return render_template('index.html')
 
+@app.route('/ticket-dashboard')
+def ticket_dashboard():
+    return render_template('tickets/tickets_dashboard.html')
+
+@app.route('/reports-dashboard')
+def reports_dashboard():
+    return render_template('reports/reports_dashboard.html')
+
+@app.route('/notifications-dashboard')
+def notifications_dashboard():
+    return render_template('notifications/notifications_dashboard.html')
+
+@app.route('/knowledge-base')
+def knowledge_base():
+    return render_template('knowledge_base/knowledge_base.html')
+
+@app.route('/profile')
+def profile():
+    return render_template('profile/profile.html')
+
+@app.route('/logout')
+def logout():
+    return render_template('logout/logout.html')
+
 @app.route('/create_issue', methods=['GET', 'POST'])
 def create_issue():
     if request.method == 'POST':
@@ -27,12 +51,12 @@ def create_issue():
         }
         response = requests.post(url, headers=headers, json=data)
         if response.status_code == 201:
-            return render_template('success_page.html', title=title)
+            return render_template('tickets/success_page.html', title=title)
         else:
             error_message = f"Failed to create issue in GitLab. Status Code: {response.status_code}"
-            return render_template('create_issue_form.html', error=error_message)
+            return render_template('tickets/create_issue_form.html', error=error_message)
     else:
-        return render_template('create_issue_form.html')
+        return render_template('tickets/create_issue_form.html')
 
 @app.route('/total_issues')
 def total_issues():
@@ -44,10 +68,10 @@ def total_issues():
         issues = response.json()
         total_issues_count = len(issues)
         issue_titles = [issue['title'] for issue in issues]
-        return render_template('issues_template.html', total_issues=total_issues_count, issue_titles=issue_titles)
+        return render_template('tickets/issues_template.html', total_issues=total_issues_count, issue_titles=issue_titles)
     else:
         error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
-        return render_template('issues_template.html', error_message=error_message)
+        return render_template('tickets/issues_template.html', error_message=error_message)
 
 @app.route('/debug')
 def debug():

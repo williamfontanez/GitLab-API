@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
+    <title>TaskForce Tracker</title>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="home-page">
+            <i class="fa-solid fa-house"></i>
+        </div>
+        <div class="nav-middle">
+            <div class="middle-text"><p>Notifications</p></div>
+        </div>
+        <div class="back-arrow" onclick="window.location.href='/'">
+            <i class="fa-solid fa-arrow-left"></i>
+        </div>
+    </div>       
+    <div class="notifications-wrapper">
+        <div class="notificatons">
+            <table>
+                <tr>
+                    <th>title</th>
+                    <th>state</th>
+                    <th>description</th>
+                    <th>assigned_ids</th>
+                    <th>created_at</th>
+                </tr>
+                <tr>
+                    <th>Account creation for Terry/th>
+                    <th>Open</th>
+                    <th>Terry is a new employee</th>
+                    <th>Ed</th>
+                    <th>2/20/2024</th>
+                </tr>
+                <tr>
+                    <th>Delete Ashleys account</th>
+                    <th>Open</th>
+                    <th>Ashley's last day was </th>
+                    <th>Kareem</th>
+                    <th>2/24/2024</th>
+                </tr>
+                <tr>
+                    <th>Open Port 8080</th>
+                    <th>Closed</th>
+                    <th>Creating container for application</th>
+                    <th>Kareem</th>
+                    <th>1/15/2024</th>
+                </tr>
+            </table>
+        </div>
+        <div class="add-notification">
+            <button class="notifications">Create Notification</button>
+        </div>
+    </div> 
+    <button class="back-to-main" onclick="window.location.href='/'">Back to main</button>
+
+</body>
+</html>

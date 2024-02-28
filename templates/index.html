@@ -3,15 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
-    <title>Ticket Dashboard</title>
+    <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
+    <title>TaskForce Tracker</title>
 </head>
 <body>
     <div class="index-wrapper">
-        <h1>Ticket Dashboard</h1>
-        <div class="buttons index-buttons-wrapper">
-            <button onclick="window.location.href='/total_issues';">View Total Issues</button>
-            <button onclick="window.location.href='/create_issue';">Create Issue</button>
+        <div class="top-wrapper"></div>
+        <div class="middle-wrapper">
+            <div class="buttons index-buttons-wrapper">
+                <button onclick="window.location.href='/ticket-dashboard';">Ticket Dashboard</button>
+                <button onclick="window.location.href='/reports-dashboard';">Reports</button>
+                <button onclick="window.location.href='/notifications-dashboard';">Notifications</button>
+                <button onclick="window.location.href='/knowledge-base';">Knowledge Base</button>
+                <button onclick="window.location.href='/profile';">Profile</button>
+                <button onclick="window.location.href='/logout';">Logout</button>
+            </div>
+            <div class="watched-tickets">
+                <table>
+                    <tr>
+                        <th>title</th>
+                        <th>state</th>
+                        <th>description</th>
+                        <th>assigned_ids</th>
+                        <th>created_at</th>
+                    </tr>
+                    <tr>
+                        <th>Account creation for Terry/th>
+                        <th>Open</th>
+                        <th>Terry is a new employee</th>
+                        <th>Ed</th>
+                        <th>2/20/2024</th>
+                    </tr>
+                    <tr>
+                        <th>Delete Ashleys account</th>
+                        <th>Open</th>
+                        <th>Ashley's last day was </th>
+                        <th>Kareem</th>
+                        <th>2/24/2024</th>
+                    </tr>
+                    <tr>
+                        <th>Open Port 8080</th>
+                        <th>Closed</th>
+                        <th>Creating container for application</th>
+                        <th>Kareem</th>
+                        <th>1/15/2024</th>
+                    </tr>
+                </table>
+            </div>
         </div>
+        <div class="bottom-wrapper"></div>
     </div>
 </body>
 </html>

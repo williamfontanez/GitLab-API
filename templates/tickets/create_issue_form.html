@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <title>Create a New Issue</title>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="home-page">
+            <div class="home-page" onclick="window.location.href='/'">
+            </div>
+        <div class="search-bar nav-middle">
+            <div class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="search-bar-text">Search Tickets</div>
+        </div>
+        <div class="back-arrow" onclick="window.location.href='/ticketd-dashboard'">
+            <i class="fa-solid fa-arrow-left"></i>
+        </div>
+    </div>
+
+    <h1>Create a New Issue</h1>
+    <form action="/create_issue" method="post">
+        <label for="title">Issue Title:</label><br>
+        <input type="text" id="title" name="title" required><br>
+        <label for="type">Select a Type:</label><br>
+        <select type="type" id="type">
+            <option value="issue">Issue</option>
+            <option value="inceidient">Incident</option>
+        </select>
+        <label for="description">Issue Description:</label><br>
+        <textarea id="description" name="description" rows="4" required></textarea><br>
+        <input class="main-button-style" type="submit" value="Create Issue">
+    </form>
+    <button class="back-to-main" onclick="window.location.href='/'">Back to main</button>
+</body>
+</html>
