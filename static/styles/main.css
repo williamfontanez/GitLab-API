@@ -20,7 +20,7 @@ button, .main-button-style{
 .index-wrapper{
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 25vh 50vh 25vh;
+    grid-template-rows: 15vh 50vh 10vh;
     justify-content: center;
 }
 
@@ -44,11 +44,10 @@ button, .main-button-style{
     display: flex;
     justify-content: center;
     justify-items: center;
-    padding-top: 30vh;
+    padding-top: 10vh;
 }
 
 .nav-bar{
-    height: 6vh;
     width: 100vw;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
@@ -56,13 +55,14 @@ button, .main-button-style{
 }
 
 .nav-bar i {
-    font-size: larger;
+    font-size: xx-large;
+    margin-left: 1vw;
 }
 .home-page{
     display: flex;
     justify-content: start;
     align-items: center;
-    padding-left: 2.5vw;
+    margin-left: 2.5vw;
 }
 
 .middle-text{
@@ -96,15 +96,25 @@ align-items: center;
     padding-left: 1vw;
 }
 
-.ticket-buttons-wrapper{
+.ticket-wrapper{
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr ;
-    padding-left: 40vw;
-    padding-top: 30vh;
-    grid-row-gap: 3vh;
-    height: 50vh;
+    grid-template-rows: 50vh 50vh;
+}
+
+.ticket-type{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ticket-type button{
+    height: 10vh;
     width: 20vw;
+}
+
+.dashboard-tickets{
+    display: flex;
+    justify-content:center;
 }
 
 .reports-wrapper {

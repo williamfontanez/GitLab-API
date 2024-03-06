@@ -2,36 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
-    <title>Ticket Dashboard</title>
+    <title>TaskForce Tracker</title>
 </head>
 <body>
-    <div class="nav-bar navbar navbar-expand-lg navbar-light">
-        <div class="home-page" onclick="window.location.href='/'">
-            <i class="fa-solid fa-house"></i>
-        </div>
-        <div class="search-bar nav-middle">
-            <div class="search-icon">
-                <i class="fa-solid fa-magnifying-glass"></i>
+    <div class="index-wrapper">
+        <div class="top-wrapper"></div>
+        <div class="middle-wrapper">
+            <div class="buttons index-buttons-wrapper">
+                <button onclick="window.location.href='ticket-dashboard';">Ticket Dashboard</button>
+                <button onclick="window.location.href='reports-dashboard';">Reports</button>
+                <button onclick="window.location.href='notifications-dashboard';">Notifications</button>
+                <button onclick="window.location.href='knowledge-base';">Knowledge Base</button>
+                <button onclick="window.location.href='profile';">Profile</button>
+                <button onclick="window.location.href='/';">Logout</button>
             </div>
-            <div class="search-bar-text">Search All Tickets</div>
-        </div>
-        <div class="back-arrow" onclick="window.location.href='/'">
-            <i class="fa-solid fa-arrow-left"></i>
-        </div>
-    </div>
-    <div class="ticket-wrapper">
-        <div class="ticket-type">
-            <button onclick="window.location.href='/create_issue';">Submit Ticket</button>
-            <button onclick="window.location.href='';">View Open Tickets</button>
-            <button onclick="window.location.href='';">View Closed Tickets</button>
-            <button onclick="window.location.href='/total_issues';">View Total Issues</button>
-        </div>
-        <div class="table-display">
-            <div class="table dashboard-tickets table-dark table-striped table-hover">
-                <table class="table-dark table-striped table-hover">
+            <div class="table watched-tickets">
+                <table>
                     <tr>
                         <th>title</th>
                         <th>state</th>
@@ -62,9 +51,8 @@
                     </tr>
                 </table>
             </div>
-
         </div>
+        <div class="bottom-wrapper"></div>
     </div>
-    
 </body>
 </html>
