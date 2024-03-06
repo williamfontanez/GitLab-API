@@ -63,6 +63,10 @@ def total_issues():
         error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
         return render_template('tickets/issues_template.html', error_message=error_message)
 
+@app.route('/ticket-issue')
+def ticket_issue():
+    return render_template('tickets/ticket_issue.html')
+
 # @app.route('/watched_issues')
 # def watched_issues():
 #     headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}

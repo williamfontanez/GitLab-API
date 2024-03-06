@@ -9,20 +9,24 @@
     <title>TaskForce Tracker</title>
 </head>
 <body>
-    <div class="nav-bar navbar navbar-expand-lg navbar-light">
-        <div class="home-page">
-            <i class="fa-solid fa-house"></i>
-        </div>
-        <div class="search-bar nav-middle">
-            <div class="search-icon">
-                <i class="fa-solid fa-magnifying-glass"></i>
+    <div class="nav-bar">
+        <nav class="navbar navbar-expand navbar-dark nav-bar">
+            <div class="home-page" onclick="window.location.href='/'">
+                <i class="fa-solid fa-house"></i>
             </div>
-            <div class="search-bar-text">Find Report</div>
-        </div>
-        <div class="back-arrow" onclick="window.location.href='/'">
-            <i class="fa-solid fa-arrow-left"></i>
-        </div>
-    </div>    
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search">
+            </form>
+
+            <div class="back-arrow" onclick="window.location.href='/'">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+        </nav>
+    </div>   
     <div class="reports-wrapper">
         <div class="report-tile">
             <div>A</div><i class="fa-solid fa-chart-simple"></i>

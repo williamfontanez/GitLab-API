@@ -96,9 +96,20 @@ align-items: center;
     padding-left: 1vw;
 }
 
-.ticket-wrapper{
+/* .ticket-wrapper{
     display: grid;
     grid-template-rows: 50vh 50vh;
+} */
+
+.profile-icon i{
+    font-size: 25vh;
+}
+.issues-wrapper{
+    color: #C3B470;
+}
+
+.list-group-item a:hover{
+    background-color: #C90404;
 }
 
 .ticket-type{

@@ -9,51 +9,98 @@
     <title>TaskForce Tracker</title>
 </head>
 <body>
-    <div class="nav-bar nav-bar navbar navbar-expand-lg navbar-light">
-        <div class="home-page" onclick="window.location.href='/'">
-            <i class="fa-solid fa-house"></i>
-        </div>
-        <div class="nav-middle">
-            <div class="middle-text"><p>Notifications</p></div>
-        </div>
-        <div class="back-arrow" onclick="window.location.href='/'">
-            <i class="fa-solid fa-arrow-left"></i>
-        </div>
-    </div>       
+    <div class="nav-bar" style="margin-bottom: 15vh;">
+        <nav class="navbar navbar-expand navbar-dark nav-bar">
+            <div class="home-page" onclick="window.location.href='/'">
+                <i class="fa-solid fa-house"></i>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="issue-name" style="display: flex; justify-content: center;">
+                <h1>
+                    Notifications
+                </h1>
+            </div>
+
+            <div class="back-arrow" onclick="window.location.href='/'">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+        </nav>
+    </div>   
     <div class="notifications-wrapper">
-        <div class="notificatons">
-            <table>
+        <div class="table watched-tickets">
+            <table class="table table-dark table-hover" style="width: 100vw; padding-left: 5vw; padding-right: 5vw; padding-bottom: 10vh;">
                 <tr>
                     <th>title</th>
-                    <th>state</th>
+                    <th>label</th>
                     <th>description</th>
                     <th>assigned_ids</th>
                     <th>created_at</th>
+                    <th>request_id</th>
                 </tr>
                 <tr>
-                    <th>Account creation for Terry/th>
-                    <th>Open</th>
-                    <th>Terry is a new employee</th>
-                    <th>Ed</th>
-                    <th>2/20/2024</th>
+                    <th>New MME Accounts NIWC CSSP WatchOps Team</th>
+                    <th>MME Access Management</th>
+                    <th>gregory.l.fincham.ctr@health.mil sean.r.hoffmann.ctr@us.navy.mil anthony.a.murray.ctr@us.navy.mil</th>
+                    <th>Timothy Jamerson</th>
+                    <th>2/4/2024</th>
+                    <th>1</th>
                 </tr>
                 <tr>
-                    <th>Delete Ashleys account</th>
-                    <th>Open</th>
-                    <th>Ashley's last day was </th>
-                    <th>Kareem</th>
-                    <th>2/24/2024</th>
+                    <th>New MME Accounts - SMS</th>
+                    <th>MME Access Management</th>
+                    <th>IRP Team Memebers - ravi.l.mathias.ctr@socom.mil Frank La lumia - frank.n.lalumia.ctr@socom.mil</th>
+                    <th>Timothy Jamerson</th>
+                    <th>1/04/2024</th>
+                    <th>2</th>
                 </tr>
                 <tr>
-                    <th>Open Port 8080</th>
-                    <th>Closed</th>
-                    <th>Creating container for application</th>
-                    <th>Kareem</th>
-                    <th>1/15/2024</th>
+                    <th>Create Resources in atn-bigbear subscription</th>
+                    <th>Subscriptions</th>
+                    <th>Resource groups needed: Private Kubernetes cluster, Storage account, Postgres Flexiable Server, Key Vault with ssh and access, VM to be used via bastion to access K8s cluster, Azure batch</th>
+                    <th>Rob Stewart</th>
+                    <th>11/04/2023</th>
+                    <th>3</th>
+                </tr>
+                <tr>
+                    <th>Grant User Administrator Privilage</th>
+                    <th>MME Access Management</th>
+                    <th>Ronnie Padron needs User Administrator Privages added</th>
+                    <th>Rob Stewart</th>
+                    <th>11/04/2023</th>
+                    <th>4</th>
+                </tr>
+                <tr>
+                    <th>Password Reset for MME User</th>
+                    <th>MME Access Management</th>
+                    <th>Please reset the following user's password: CPT Wilson, Clark username: clark@uatn.net</th>
+                    <th>Jessica Castellanos</th>
+                    <th>9/04/2023</th>
+                    <th>5</th>
+                </tr>
+                <tr>
+                    <th>New Azure Role Assignment</th>
+                    <th>MME Access Management</th>
+                    <th>Ensure user has proper firewall access: Bond, James</th>
+                    <th>Jessica Castellanos</th>
+                    <th>8/04/2023</th>
+                    <th>6</th>
+                </tr>
+                <tr>
+                    <th>Add user to applications</th>
+                    <th>MME Access Management</th>
+                    <th>Add Smith, John to the following applications: Zscaler, GitLAb and Databricks</th>
+                    <th>Gabriel Sital</th>
+                    <th>2/25/2024</th>
+                    <th>7</th>
                 </tr>
             </table>
         </div>
-        <div class="add-notification">
+    </div>
+    <div class="bottom-wrapper" style="height: 10vh; width: 100vw;"></div>
+    <div class="add-notification">
             <button class="notifications">Create Notification</button>
         </div>
     </div> 

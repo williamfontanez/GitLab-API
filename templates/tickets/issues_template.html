@@ -2,37 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
     <title>Total Issues</title>
 </head>
 <body>
     <div class="nav-bar">
-        <div class="home-page">
+        <nav class="navbar navbar-expand navbar-dark nav-bar">
             <div class="home-page" onclick="window.location.href='/'">
+                <i class="fa-solid fa-house"></i>
             </div>
-        <div class="search-bar nav-middle">
-            <div class="search-icon">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-            <div class="search-bar-text">Search Tickets</div>
-        </div>
-        <div class="back-arrow" onclick="window.location.href='/ticketd-dashboard'">
-            <i class="fa-solid fa-arrow-left"></i>
-        </div>
-    </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search">
+            </form>
 
-    <h1>Total Issues in Project: {{ total_issues }}</h1>
-    {% if issue_titles %}
-        <ul>
+            <div class="back-arrow" onclick="window.location.href='/'">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+        </nav>
+    </div>   
+    <div class="title">
+        <h1>Total Issues in Project: {{ total_issues }}</h1>
+    </div>
+    <div class="issues-wrapper">
+        {% if issue_titles %}
+        <ul class="list-group" style="background-color: tan;">
             {% for title in issue_titles %}
-                <li>{{ title }}</li>
+                <li class="list-group-item active" aria-current="true">
+                    <a onclick="window.location.href='ticket-issue'" class="list-group-item list-group-item-action active" aria-current="true">
+                        {{ title }}
+                    </a>
+                </li>
             {% endfor %}
         </ul>
-    {% else %}
-        <p>No issues to display.</p>
-    {% endif %}
-
-    <button class="back-to-main" onclick="window.location.href='/'">Back to main</button>
+        {% else %}
+            <p>No issues to display.</p>
+        {% endif %}
+    </div>
 </body>
 </html>
