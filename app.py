@@ -63,6 +63,21 @@ def total_issues():
         error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
         return render_template('tickets/issues_template.html', error_message=error_message)
 
+@app.route('/first-ten-issues')
+def first_ten_issues():
+    headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
+    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all'
+
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        issues = response.json()[:10]
+        total_issues_count = len(issues)
+        issue_titles = [issue['title'] for issue in issues]
+        return render_template('tickets/issues_template.html', total_issues=total_issues_count, issue_titles=issue_titles)
+    else:
+        error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
+        return render_template('tickets/issues_template.html', error_message=error_message)
+
 @app.route('/ticket-issue')
 def ticket_issue():
     return render_template('tickets/ticket_issue.html')
