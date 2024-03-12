@@ -116,7 +116,7 @@ def profile():
 
 @app.route('/logout')
 def logout():
-    return render_template('index.html')
+    return render_template('logout/logout.html')
 
 @app.route('/debug')
 def debug():
