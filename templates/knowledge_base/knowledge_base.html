@@ -6,19 +6,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>TaskForce Tracker</title>
 </head>
+<style>
+    #dataTable tr:hover {
+        cursor: pointer;
+        background-color: #f5f5f5; /* Light grey background on hover */
+    }
+</style>
 <body>
     <div class="navbar-wrapper">
-        <nav class="navbar navbar-expand navbar-dark bg-dark">
-            <div class="link-wrapper">
-                <a class="navbar-brand" href="/" style="padding-left: 1vw;">TaskForce Tracker</a>
+        <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
+            <div class="tft-link-wrapper">
+                <a class="navbar-brand" onclick="window.location.href='/';" style="padding-left: 1vw;">TaskForce Tracker</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="search-bar-wrapper collapse navbar-collapse" id="navbarsExample02">
-                    <form class="form-inline my-2 my-md-0">
-                        <input class="form-control" type="text" placeholder="Search" style="padding-left: 23.75rem; padding-right: 23.75rem; margin-left: 8vw;">
+                    <form class="form-inline my-3 my-md-0">
+                        <input class="form-control" type="text" id="searchInput" placeholder="Search">
                     </form>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarsExample02">
@@ -33,50 +40,76 @@
                 </div>
             </div>
           </nav>    
-    </div> 
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Account Creation Process</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw;"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <p>This is where the account creation process information will go</p>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
     <div class="table watched-tickets">
-        <table class="table table-dark table-hover"style="width: 100vw; padding-left: 5vw; padding-right: 5vw; padding-bottom: 10vh;">
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Description
-                </th>
-                <th>
-                    Tags
-                </th>
-                <th>
-                    Last Updated
-                </th>
-                <th>
-                    Action Item
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    Account Creation Process
-                </th>
-                <th>
-                    Explains the account creation process
-                </th>
-                <th>
-                    Account Management
-                </th>
-                <th>
-                    0/0/0000
-                </th>
-                <th>
+        <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 10vh 5vw; display: flex; flex-direction: column;">
+            <thead style="background-color: #343a40 !important;">
+                <tr>
+                    <th>Name</th>
+                <th>Description</th>
+
+<th>Tags</th>
+<th>Last Update</th>
+<th>
+    Action Item
+</th>
+
+            </thead>
+            <tbody onclick="">
+                <tr>
+                    <td>                    Account Creation Process
+                    </td>
+ <td>                    Explains the account creation process
+</td>
+
+<td>Account Management</td>
+<td>0/0/0000</td>
+                    
+
+                <td>
                     <div class="action-item-icons">
                         <i class="fa-regular fa-pen-to-square"></i>
                         <i class="fa-solid fa-download"></i>
                         <i class="fa-solid fa-download"></i>
                     </div>
-                </th>
-            </tr>
+                </td>
+            </tbody>
         </table>
     </div>
 </div>
-
+<script>
+    $(document).ready(function() {
+        // Search filter functionality
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#dataTable tr:not(:first)").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+</script>
+<script>
+$(document).ready(function() {
+    // Event delegation
+    $('#dataTable tbody').on('click', 'tr', function() {
+        $('#exampleModal').modal('show');
+    });
+});
+</script>
 </body>
 </html>

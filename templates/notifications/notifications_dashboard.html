@@ -6,19 +6,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>TaskForce Tracker</title>
 </head>
 <body>
     <div class="navbar-wrapper">
-        <nav class="navbar navbar-expand navbar-dark bg-dark">
-            <div class="link-wrapper">
-                <a class="navbar-brand" href="/" style="padding-left: 1vw;">TaskForce Tracker</a>
+        <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
+            <div class="tft-link-wrapper">
+                <a class="navbar-brand" onclick="window.location.href='/';" style="padding-left: 1vw;">TaskForce Tracker</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="search-bar-wrapper collapse navbar-collapse" id="navbarsExample02">
-                    <form class="form-inline my-2 my-md-0">
-                        <input class="form-control" type="text" placeholder="Search" style="padding-left: 23.75rem; padding-right: 23.75rem; margin-left: 8vw;">
+                    <form class="form-inline my-3 my-md-0">
+                        <input class="form-control" type="text" id="searchInput" placeholder="Search">
                     </form>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarsExample02">
@@ -36,73 +37,52 @@
     </div>
     <div class="notifications-wrapper">
         <div class="table watched-tickets">
-            <table class="table table-dark table-hover" style="width: 100vw; padding-left: 5vw; padding-right: 5vw; padding-bottom: 10vh;">
-                <tr>
-                    <th>title</th>
-                    <th>label</th>
-                    <th>description</th>
-                    <th>assigned_ids</th>
-                    <th>created_at</th>
-                    <th>request_id</th>
+            <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 10vh 5vw;">
+                <tr style="background-color: #343a40 !important;">
+                    <th>Title</th>
+                    <th>Notification</th>
                 </tr>
                 <tr>
                     <th>New MME Accounts NIWC CSSP WatchOps Team</th>
-                    <th>MME Access Management</th>
-                    <th>gregory.l.fincham.ctr@health.mil sean.r.hoffmann.ctr@us.navy.mil anthony.a.murray.ctr@us.navy.mil</th>
-                    <th>Timothy Jamerson</th>
-                    <th>2/4/2024</th>
-                    <th>1</th>
+                    <th>No notification</th>
                 </tr>
                 <tr>
                     <th>New MME Accounts - SMS</th>
-                    <th>MME Access Management</th>
-                    <th>IRP Team Memebers - ravi.l.mathias.ctr@socom.mil Frank La lumia - frank.n.lalumia.ctr@socom.mil</th>
-                    <th>Timothy Jamerson</th>
-                    <th>1/04/2024</th>
-                    <th>2</th>
+                    <th>No notification</th>
                 </tr>
                 <tr>
                     <th>Create Resources in atn-bigbear subscription</th>
-                    <th>Subscriptions</th>
-                    <th>Resource groups needed: Private Kubernetes cluster, Storage account, Postgres Flexiable Server, Key Vault with ssh and access, VM to be used via bastion to access K8s cluster, Azure batch</th>
-                    <th>Rob Stewart</th>
-                    <th>11/04/2023</th>
-                    <th>3</th>
+                    <th>No notification</th>
                 </tr>
                 <tr>
                     <th>Grant User Administrator Privilage</th>
-                    <th>MME Access Management</th>
-                    <th>Ronnie Padron needs User Administrator Privages added</th>
-                    <th>Rob Stewart</th>
-                    <th>11/04/2023</th>
-                    <th>4</th>
+                    <th>No notification</th>
                 </tr>
                 <tr>
                     <th>Password Reset for MME User</th>
-                    <th>MME Access Management</th>
-                    <th>Please reset the following user's password: CPT Wilson, Clark username: clark@uatn.net</th>
-                    <th>Jessica Castellanos</th>
-                    <th>9/04/2023</th>
-                    <th>5</th>
+                    <th>No notification</th>
                 </tr>
                 <tr>
                     <th>New Azure Role Assignment</th>
-                    <th>MME Access Management</th>
-                    <th>Ensure user has proper firewall access: Bond, James</th>
-                    <th>Jessica Castellanos</th>
-                    <th>8/04/2023</th>
-                    <th>6</th>
+                    <th>No notification</th>
                 </tr>
                 <tr>
                     <th>Add user to applications</th>
-                    <th>MME Access Management</th>
-                    <th>Add Smith, John to the following applications: Zscaler, GitLAb and Databricks</th>
-                    <th>Gabriel Sital</th>
-                    <th>2/25/2024</th>
-                    <th>7</th>
+                    <th>No notification</th>
                 </tr>
             </table>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            // Search filter functionality
+            $("#searchInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#dataTable tr:not(:first)").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

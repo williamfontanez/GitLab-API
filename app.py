@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, jsonify
 import requests
 import os
 
@@ -17,16 +17,34 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
+    # Add the labels parameter to the query string
+    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all&labels=Watch'
 
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        issues = response.json()[:10]  # Fetch first 10 issues with 'Watch' label
+        return render_template('index.html', issues=issues)
+    else:
+        error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
+        return render_template('index.html', error_message=error_message)
 #region this region
-#region
+#region Tickets
 @app.route('/ticket-dashboard')
 def ticket_dashboard():
-    return render_template('tickets/tickets_dashboard.html')
+    headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
+    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all'
 
-@app.route('/create_issue', methods=['GET', 'POST'])
-def create_issue():
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        issues = response.json()  # Fetch first 10 issues
+        return render_template('tickets/tickets_dashboard.html', issues=issues)
+    else:
+        error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
+        return render_template('tickets/tickets_dashboard.html', error_message=error_message)
+
+@app.route('/create_issues', methods=['GET', 'POST'])
+def create_issues():
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
@@ -41,12 +59,41 @@ def create_issue():
         }
         response = requests.post(url, headers=headers, json=data)
         if response.status_code == 201:
-            return render_template('tickets/success_page.html', title=title)
+            return render_template('tickets/tickets_dashboard.html', title=title)
         else:
             error_message = f"Failed to create issue in GitLab. Status Code: {response.status_code}"
             return render_template('tickets/create_issue_form.html', error=error_message)
+
+@app.route('/create_issue', methods=['POST'])
+def create_issue():
+    title = request.form['title']
+    description = request.form['description']
+    issue_type = request.form['issueType']
+    watch_ticket = 'watch' in request.form
+
+    labels = f"A::B::{issue_type.replace(' ', '')}"
+    if watch_ticket:
+        labels += ",Watch"
+    
+    assignee_id = 'williamfontanez' if issue_type == 'Create New Account' else 'ticket-assess-token'
+
+    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues'
+    data = {
+        'title': title,
+        'description': description,
+        'labels': labels,
+        # 'assignee_id': assignee_id, # Uncomment and replace with actual ID after fetching from GitLab
+    }
+
+    headers = {
+        'PRIVATE-TOKEN': GITLAB_TOKEN
+    }
+
+    response = requests.post(url, headers=headers, data=data)
+    if response.status_code == 201:
+        return jsonify({"success": True, "message": "Issue created successfully"})
     else:
-        return render_template('tickets/create_issue_form.html')
+        return jsonify({"success": False, "message": "Failed to create issue"}), 400
 
 @app.route('/total_issues')
 def total_issues():

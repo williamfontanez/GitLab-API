@@ -5,6 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Ticket Dashboard</title>
     <style>
         .hidden {
@@ -14,15 +15,15 @@
 </head>
 <body>
     <div class="navbar-wrapper">
-        <nav class="navbar navbar-expand navbar-dark bg-dark">
-            <div class="link-wrapper">
-                <a class="navbar-brand" href="/" style="padding-left: 1vw;">TaskForce Tracker</a>
+        <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
+            <div class="tft-link-wrapper">
+                <a class="navbar-brand" onclick="window.location.href='/';" style="padding-left: 1vw;">TaskForce Tracker</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="search-bar-wrapper collapse navbar-collapse" id="navbarsExample02">
-                    <form class="form-inline my-2 my-md-0">
-                        <input class="form-control" type="text" placeholder="Search" style="padding-left: 23.75rem; padding-right: 23.75rem; margin-left: 8vw;">
+                    <form class="form-inline my-3 my-md-0">
+                        <input class="form-control" type="text" id="searchInput" placeholder="Search">
                     </form>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarsExample02">
@@ -31,14 +32,14 @@
                       <a class="nav-link" onclick="window.location.href='profile';">Welcome Major Davis<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" onclick="window.location.href='logout';">Logout</a>
+                      <a class="nav-link" href="#">Logout</a>
                     </li>
                   </ul>
                 </div>
             </div>
           </nav>    
     </div>
-    <div class="ticket-wrapper" style="margin-top: 5vh;">
+    <div class="ticket-wrapper" style="margin-top: 5vh; margin-bottom: 5vh;">
         <div class="ticket-type">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="color: white; background-color: #C90404; border-color: #C90404;">
                 Create Ticket
@@ -52,7 +53,13 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <form class="needs-validation" novalidate="" action="/create_issue" method="post">
+                            <form class="needs-validation" novalidate="" action="/create_issue" method="post" id="issueForm">
+                                <div class="col-md-12 mb-3">
+                                    <select name="issueType" id="issueType">
+                                        <option value="Create New Account">Create New Account</option>
+                                        <option value="Azure Permissions Change">Azure Permissions Change</option>
+                                    </select>
+                                </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="title">Title</label>
                                     <input type="text" class="form-control" name="title" id="title" placeholder="" value="" required>
@@ -61,21 +68,22 @@
                                     <label for="description" style="width: auto;">Description</label>
                                     <textarea id="description" class="form-control" name="description" rows="4" required></textarea>
                                 </div>
+                                <input type="checkbox" name="watch" id="watchTicket"> Watch Ticket<br>
                                 <div class="modal-footer" style="display: flex; justify-content: center;">
                                     <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
                                     <button class="btn btn-lg btn-block" type="submit" style="background-color: #C90404; color: white;">Submit Ticket</button>
+                                    <button class="btn btn-lg btn-block" type="submit" data-bs-dismiss="modal" aria-label="Close" style="color: white; background-color: #C90404; border-color: #C90404;">
+                                        New Submit Ticket
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            <!-- <button onclick="window.location.href='';">View Open Tickets</button>
-            <button onclick="window.location.href='';">View Closed Tickets</button>
-            <button onclick="window.location.href='/total_issues';">View Total Issues</button> -->
+            </div>
         </div>
-        <div class="checkbox">
+        <div class="ticket-wrapper-checkbox">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="openTicketsCheckbox" checked>
                 <label class="form-check-label" for="openTicketsCheckbox">
@@ -89,78 +97,51 @@
                 </label>
             </div>        
         </div>
-        <div class="table watched-tickets">
-            <table class="table table-dark table-hover" style="width: 100vw; padding-left: 5vw; padding-right: 5vw; padding-top: 0;">
-                <tr>
-                    <th>title</th>
-                    <th>label</th>
-                    <th>description</th>
-                    <th>assigned_ids</th>
-                    <th>created_at</th>
-                    <th>request_id</th>
+        <div class="table watched-tickets"  style="table-layout: fixed; width: 48.367vw; ">
+            <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 0vh 5vw 5vh 5vw;">
+                <tr style="background-color: #343a40 !important;">
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Created At</th>
+                    <th>Label Name</th>
+                    <th>Id</th>
+                    <th>Assigned To</th>
                 </tr>
-                <tr class="ticketOpen">
-                    <th>New MME Accounts NIWC CSSP WatchOps Team</th>
-                    <th>MME Access Management</th>
-                    <th>gregory.l.fincham.ctr@health.mil sean.r.hoffmann.ctr@us.navy.mil anthony.a.murray.ctr@us.navy.mil</th>
-                    <th>Timothy Jamerson</th>
-                    <th>2/4/2024</th>
-                    <th>1</th>
+                {% for issue in issues %}
+                <tr class="{{ 'ticketOpen' if issue.state == 'opened' else 'ticketClosed' }}">
+                    <td>{{ issue.title }}</td>
+                    <td>{{ issue.description | default('No description', true) }}</td>
+                    <td>{{ issue.created_at }}</td>
+                    <td>
+                        {% if issue.labels %}
+                            {% for label in issue.labels %}
+                                {{ label }}
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            No labels
+                        {% endif %}
+                    </td>
+                    <td>{{issue.id}}</td>
+                    <td>
+                        {% if issue.assignee_username %}
+                        {% for assigned in issue.assignee_username %}
+                            {{ assignee_username }}
+                            {% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        Not Assigned
+                    {% endif %}
+                    </td>
                 </tr>
-                <tr class="ticketOpen">
-                    <th>New MME Accounts - SMS</th>
-                    <th>MME Access Management</th>
-                    <th>IRP Team Memebers - ravi.l.mathias.ctr@socom.mil Frank La lumia - frank.n.lalumia.ctr@socom.mil</th>
-                    <th>Timothy Jamerson</th>
-                    <th>1/04/2024</th>
-                    <th>2</th>
-                </tr>
-                <tr class="ticketClosed">
-                    <th>Create Resources in atn-bigbear subscription</th>
-                    <th>Subscriptions</th>
-                    <th>Resource groups needed: Private Kubernetes cluster, Storage account, Postgres Flexiable Server, Key Vault with ssh and access, VM to be used via bastion to access K8s cluster, Azure batch</th>
-                    <th>Rob Stewart</th>
-                    <th>11/04/2023</th>
-                    <th>3</th>
-                </tr>
-                <tr class="ticketOpen">
-                    <th>Grant User Administrator Privilage</th>
-                    <th>MME Access Management</th>
-                    <th>Ronnie Padron needs User Administrator Privages added</th>
-                    <th>Rob Stewart</th>
-                    <th>11/04/2023</th>
-                    <th>4</th>
-                </tr>
-                <tr class="ticketClosed">
-                    <th>Password Reset for MME User</th>
-                    <th>MME Access Management</th>
-                    <th>Please reset the following user's password: CPT Wilson, Clark username: clark@uatn.net</th>
-                    <th>Jessica Castellanos</th>
-                    <th>9/04/2023</th>
-                    <th>5</th>
-                </tr>
-                <tr class="ticketClosed">
-                    <th>New Azure Role Assignment</th>
-                    <th>MME Access Management</th>
-                    <th>Ensure user has proper firewall access: Bond, James</th>
-                    <th>Jessica Castellanos</th>
-                    <th>8/04/2023</th>
-                    <th>6</th>
-                </tr>
-                <tr class="ticketOpen">
-                    <th>Add user to applications</th>
-                    <th>MME Access Management</th>
-                    <th>Add Smith, John to the following applications: Zscaler, GitLAb and Databricks</th>
-                    <th>Gabriel Sital</th>
-                    <th>2/25/2024</th>
-                    <th>7</th>
-                </tr>
+                {% endfor %}
             </table>
         </div>
     </div>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+
+    <!-- This is how to just use the checkbox to show table items based on their status-->
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             var openTicketsCheckbox = document.getElementById('openTicketsCheckbox');
             var closedTicketsCheckbox = document.getElementById('closedTicketsCheckbox');
@@ -177,7 +158,89 @@
                 });
             });
         });    
+    </script> -->
+
+    <!-- This is how to just use the checkbox to show table items based on their status and search functionality using JQuery but it is redundant-->
+    <!-- <script>
+        var openTicketsCheckbox = document.getElementById('openTicketsCheckbox');
+        var closedTicketsCheckbox = document.getElementById('closedTicketsCheckbox');
+
+        $(document).ready(function() {
+
+            // Search filter functionality
+            $("#searchInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#dataTable tr:not(:first)").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+
+            // Toggle visibility based on 'Open Tickets' checkbox
+            openTicketsCheckbox.addEventListener('change', function() {
+                document.querySelectorAll('.ticketOpen').forEach(function(ticket) {
+                    ticket.style.display = openTicketsCheckbox.checked ? '' : 'none';
+                });
+            });
+
+
+            // Toggle visibility based on 'Closed Tickets' checkbox
+            closedTicketsCheckbox.addEventListener('change', function() {
+                document.querySelectorAll('.ticketClosed').forEach(function(ticket) {
+                    ticket.style.display = closedTicketsCheckbox.checked ? '' : 'none';
+                });
+            });
+        });
+    </script> -->
+
+    <!-- This is correct way using JQuery how to just use the checkbox to show table items based on their status-->
+    <script>
+        $(document).ready(function() {
+            // Search filter functionality
+            $("#searchInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#dataTable tr:not(:first)").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+    
+            // Toggle visibility based on 'Open Tickets' checkbox
+            $('#openTicketsCheckbox').change(function() {
+                if (this.checked) {
+                    $('.ticketOpen').show();
+                } else {
+                    $('.ticketOpen').hide();
+                }
+            });
+    
+            // Toggle visibility based on 'Closed Tickets' checkbox
+            $('#closedTicketsCheckbox').change(function() {
+                if (this.checked) {
+                    $('.ticketClosed').show();
+                } else {
+                    $('.ticketClosed').hide();
+                }
+            });
+        });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#issueForm').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "/create_issue",
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        alert(response.message);
+                        $('#exampleModal').modal('hide');
+                    },
+                    error: function(xhr, status, error) {
+                        alert(xhr.responseJSON.message);
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> 
 </body>
 </html>

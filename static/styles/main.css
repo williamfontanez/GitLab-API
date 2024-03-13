@@ -9,6 +9,7 @@
 body{
     background-color: var(--lightGray);
     margin: 0px;
+    margin-bottom: 5vh;
 }
 
 
@@ -84,9 +85,9 @@ button, .main-button-style{
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; */
 }
 
-.link-wrapper{
+.tft-link-wrapper{
     display: grid;
-    grid-template-columns: 10vw 60vw 30vw;
+    grid-template-columns: 10vw 74vw 14vw;
 }
 
 .search-bar-wrapper{
@@ -96,7 +97,7 @@ button, .main-button-style{
 }
 
 .navbar-expand .navbar-collapse {
-    justify-content: end;
+    justify-content: space-around;
     margin-right: 1vw;
 }
 
@@ -119,7 +120,6 @@ button, .main-button-style{
     display: flex;
     justify-content: center;
     justify-items: center;
-    padding-top: 10vh;
 }
 
 .nav-bar{
@@ -199,7 +199,7 @@ align-items: center;
     column-gap: 5vw;
 }
 
-.checkbox{
+.ticket-wrapper-checkbox{
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
@@ -262,6 +262,136 @@ align-items: center;
     justify-content: center;
 }
 
-.btn-close{
+.profile-container{
+    padding-top: 30vh;
+}
+
+.profile-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ticket-preferences h1{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.ticket-preferences-checkbox{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 2vw;
+    align-items: center;
+    justify-items: stretch;
+}
+ 
+tr:hover{
+    background-color: tan !important;
+    transition-duration: .75s;
+}
+
+.navbar-wrapper{
+
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+}
+
+.tables th,
+.tables td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    width: 90vw;
+}
+
+.table-darks {
+    color: #fff;
+    background-color: #343a40;
+}
+
+.table-darks th,
+.table-darks td {
+    border-color: #454d55;
+    width: 90vw;
+}
+
+.table-hover .table-row:hover {
+    background-color: rgba(0, 0, 0, 0.075);
     
+}
+
+.tft-navbar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-expand-lg {
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+}
+
+@media (max-width: 992px) {
+    .navbar-expand-lg {
+        flex-flow: column nowrap;
+        overflow: hidden;
+        max-height: 0;
+    }
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: column;
+        margin: 0;
+    }
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.bg-dark {
+    background-color: #343a40 !important;
+}
+
+.tft-tft-link-wrapper {
+    display: flex;
+    justify-content: space-between; /* Or 'flex-start' for left-aligned */
+    padding: 0.5rem 0; /* Example padding */
+}
+
+.tft-tft-link-wrapper a {
+    text-decoration: none;
+    color: #ffffff; /* Assuming you want white text for 'navbar-dark' */
+    margin-right: 15px; /* Space between links */
+}
+
+/* Optional: Add a hover effect to the links */
+.tft-tft-link-wrapper a:hover {
+    color: #cccccc;
+}
+
+.tft-link-wrapper input{
+    width: 100%;
+}
+
+.form-inline{
+    width: 90%;
+    justify-self: space-around;
+    align-items: center;
+}
+
+.ticket-type bottom:hover {
+    border: #C3B470 solid 2px;
 }
