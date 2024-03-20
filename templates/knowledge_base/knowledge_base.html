@@ -5,15 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
-    <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <title>TaskForce Tracker</title>
 </head>
 <style>
     #dataTable tr:hover {
         cursor: pointer;
-        background-color: #f5f5f5; /* Light grey background on hover */
+        background-color: #f5f5f5; 
     }
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; 
+}
 </style>
 <body>
     <div class="navbar-wrapper">
@@ -41,60 +63,62 @@
             </div>
           </nav>    
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Account Creation Process</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw;"></button>
+              <h5 class="modal-title" id="pdfModalLabel">PDF Viewer</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <p>This is where the account creation process information will go</p>
-                </div>
+              <iframe id="pdfViewer" src="" style="width:100%; height:500px;" frameborder="0"></iframe>
             </div>
           </div>
         </div>
-    </div>
-    <div class="table watched-tickets">
-        <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 10vh 5vw; display: flex; flex-direction: column;">
-            <thead style="background-color: #343a40 !important;">
-                <tr>
-                    <th>Name</th>
+      </div>
+    <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 10vh 5vw; display: flex; flex-direction: column;">
+        <thead style="background-color: #343a40 !important;">
+            <tr>
+                <th>Name</th>
                 <th>Description</th>
-
-<th>Tags</th>
-<th>Last Update</th>
-<th>
-    Action Item
-</th>
-
-            </thead>
-            <tbody onclick="">
-                <tr>
-                    <td>                    Account Creation Process
-                    </td>
- <td>                    Explains the account creation process
-</td>
-
-<td>Account Management</td>
-<td>0/0/0000</td>
-                    
-
+                <th>Tags</th>
+                <th>Last Update</th>
+                <th>Action Item</th>
+            </tr>
+        </thead>
+        <tbody onclick="">
+            <tr>
+                <td>Account Creation Process</td>
+                <td>Explains the account creation process</td>
+                <td>Account Management</td>
+                <td>0/0/0000</td>
                 <td>
                     <div class="action-item-icons">
+                        <i class="fa-solid fa-eye" data-bs-toggle="modal" data-bs-target="#pdfModal" data-pdf-url="path/to/your/pdf.pdf"></i>
                         <i class="fa-regular fa-pen-to-square"></i>
                         <i class="fa-solid fa-download"></i>
-                        <i class="fa-solid fa-download"></i>
+                        <i class="fa-solid fa-envelope"></i>
                     </div>
                 </td>
-            </tbody>
-        </table>
+        </tbody>
+    </table>
+
+    <div id="knowledgeList">
+      <button class="knowledgeItem" data-id="1">Knowledge Item 1</button>
+      <button class="knowledgeItem" data-id="2">Knowledge Item 2</button>
+      <!-- Add more knowledge items here -->
+  </div>
+  
+  <div id="knowledgeDetail" style="display: none;">
+      <h2 id="knowledgeTitle"></h2>
+      <p id="knowledgeContent"></p>
+      <button id="editSuggestion">Suggest Edit</button>
+      <button id="sendTo">Send To</button>
+      <button id="download">Download</button>
+  </div>
     </div>
-</div>
 <script>
     $(document).ready(function() {
-        // Search filter functionality
         $("#searchInput").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#dataTable tr:not(:first)").filter(function() {
@@ -104,12 +128,75 @@
     });
 </script>
 <script>
-$(document).ready(function() {
-    // Event delegation
-    $('#dataTable tbody').on('click', 'tr', function() {
-        $('#exampleModal').modal('show');
+  $(document).ready(function() {
+      $('.fa-eye').on('click', function() {
+          var pdfUrl = $(this).attr('/Users/development/Repos/GitLab-API/templates/knowledge_base/knowledge_base_documents/Account-Creation.pdf');
+          
+          $('#pdfViewer').attr('src', pdfUrl);
+          var pdfModal = new bootstrap.Modal(document.getElementById('pdfModal'));
+          pdfModal.show();
+      });
+  });
+</script>
+<script>
+var modal = document.getElementById("myModal");
+
+var btn = document.getElementById("myBtn");
+
+var span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function() {
+  modal.style.display = "block";
+  document.getElementById("pdfObject").data = "path/to/your/pdf.pdf";
+}
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const knowledgeItems = document.querySelectorAll('.knowledgeItem');
+    knowledgeItems.forEach(item => {
+        item.addEventListener('click', function() {
+            displayKnowledgeDetail(this.getAttribute('data-id'));
+        });
+    });
+
+    document.getElementById('editSuggestion').addEventListener('click', function() {
+        alert('Edit suggestion clicked');
+    });
+
+    document.getElementById('sendTo').addEventListener('click', function() {
+        alert('Send to clicked');
+    });
+
+    document.getElementById('download').addEventListener('click', function() {
+        alert('Download clicked');
     });
 });
+
+function displayKnowledgeDetail(id) {
+    const knowledgeTitle = `Knowledge Item ${id}`;
+    const knowledgeContent = `Details for Knowledge Item ${id}.`;
+
+    document.getElementById('knowledgeTitle').innerText = knowledgeTitle;
+    document.getElementById('knowledgeContent').innerText = knowledgeContent;
+    document.getElementById('knowledgeDetail').style.display = 'block';
+}
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="../../assets/js/vendor/popper.min.js"></script>
+<script src="../../dist/js/bootstrap.min.js"></script>
 </body>
 </html>

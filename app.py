@@ -1,47 +1,160 @@
-from flask import Flask, request, render_template, redirect, url_for, jsonify
+from flask import Flask, request, render_template, redirect, url_for, jsonify, flash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
 import requests
 import os
 
 GITLAB_TOKEN = os.getenv('gitlab_token')
 GITLAB_PROJECT_ID = os.getenv('gitlab_project_id')
 
-AZURE_TENANT_ID = os.getenv('azure_tenant_id')
-AZURE_CLIENT_ID = os.getenv('azure_client_id')
-AZURE_CLIENT_SECRET = os.getenv('azure_client_secret')
-SUBSCRIPTION_ID = os.getenv('subscription_id')
-FLASK_SECRET_KEY = os.getenv('flask_secret_key')
+users = {}
 
 app = Flask(__name__)
+app.secret_key = os.getenv('app_secret_key')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
+class User(db.Model, UserMixin):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128))
+    def __repr__(self):
+        return '<User %r>' % self.username
 
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+    def get_id(self):
+           return (self.email)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
+
+@app.before_request
+def create_tables():
+    db.create_all()
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.filter_by(email=user_id).first()
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        user = User.query.filter_by(email=email).first()
+        if user and user.check_password(password):
+            login_user(user)
+            flash('Logged in successfully.')
+            return redirect(url_for('index'))
+        else:
+            flash('Invalid email or password.')
+
+    return render_template('login.html')
+
+@app.route('/landing-page')
+def landing_page():
+    return render_template('landing-page.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            flash('Email already registered.', 'warning')
+            return redirect(url_for('register'))
+        else:
+            try:
+                new_user = User(username=form.username.data, email=form.email.data)
+                new_user.set_password(form.password.data)
+                db.session.add(new_user)
+                db.session.commit()
+
+                login_user(new_user)
+                flash('Registration successful. Welcome!', 'success')
+                return redirect(url_for('index')) 
+            except Exception as e:
+                db.session.rollback()
+                flash('An error occurred. Please try again.', 'error')
+                app.logger.error(f'Registration error: {e}')
+    return render_template('register.html', form=form)
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return f'Hello, {current_user.id}! <a href="/logout">Logout</a>'
+
+@app.route('/contacts')
+def contacts():
+    return render_template('contacts/contacts.html')
 
 @app.route('/')
+def first_page():
+    return redirect(url_for('landing_page'))
+
+
+@app.route('/index')
+@login_required
 def index():
+    return render_template('index/index.html')
+
+@app.route('/ticket-dashboard')
+def ticket_dashboard():
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+
     headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
-    # Add the labels parameter to the query string
-    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all&labels=Watch'
+    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all&per_page={per_page}&page={page}'
 
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        issues = response.json()[:10]  # Fetch first 10 issues with 'Watch' label
-        return render_template('index.html', issues=issues)
+        issues = response.json()
+        return render_template('tickets/tickets_dashboard.html', issues=issues, page=page)
     else:
         error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
-        return render_template('index.html', error_message=error_message)
-#region this region
-#region Tickets
-@app.route('/ticket-dashboard')
-def ticket_dashboard():
+        return render_template('tickets/tickets_dashboard.html', error_message=error_message)
     headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
     url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all'
 
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        issues = response.json()  # Fetch first 10 issues
-        return render_template('tickets/tickets_dashboard.html', issues=issues)
+        issues = response.json()[20:40]
+        return render_template('tickets/tickets_dashboard2.html', issues=issues)
     else:
         error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
-        return render_template('tickets/tickets_dashboard.html', error_message=error_message)
+        return render_template('tickets/tickets_dashboard2.html', error_message=error_message)
 
 @app.route('/create_issues', methods=['GET', 'POST'])
 def create_issues():
@@ -108,43 +221,12 @@ def total_issues():
         return render_template('tickets/issues_template.html', total_issues=total_issues_count, issue_titles=issue_titles)
     else:
         error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
-        return render_template('tickets/issues_template.html', error_message=error_message)
-
-@app.route('/first-ten-issues')
-def first_ten_issues():
-    headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
-    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all'
-
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        issues = response.json()[:10]
-        total_issues_count = len(issues)
-        issue_titles = [issue['title'] for issue in issues]
-        return render_template('tickets/issues_template.html', total_issues=total_issues_count, issue_titles=issue_titles)
-    else:
-        error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
-        return render_template('tickets/issues_template.html', error_message=error_message)
+        return render_template('tickets/issues_template.html', error_message=error_message)                                            
 
 @app.route('/ticket-issue')
 def ticket_issue():
     return render_template('tickets/ticket_issue.html')
 
-# @app.route('/watched_issues')
-# def watched_issues():
-#     headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
-#     url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all'
-
-#     response = requests.get(url, headers=headers)
-#     if response.status_code == 200:
-#         issues = response.json()
-#         watched_issues = filter(watched, issues)
-#         return watched_issues
-#     else:
-#         error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
-#         return render_template('tickets/issues_template.html', error_message=error_message)
-
-#endregion
-#endregion
 @app.route('/reports-dashboard')
 def reports_dashboard():
     return render_template('reports/reports_dashboard.html')
@@ -163,17 +245,8 @@ def profile():
 
 @app.route('/logout')
 def logout():
-    return render_template('logout/logout.html')
-
-@app.route('/debug')
-def debug():
-    headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
-    url = f'https:///gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all'
-    print(f"URL: {url}")
-    print(f"Headers: {headers}")
-    response = requests.get(url, headers=headers)
-    return f"Status Code: {response.status_code}, Response Body: {response.text}", 200
-
+    logout_user()
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000, ssl_context=('ssl_context/localhost.pem', 'ssl_context/localhost-key.pem'))

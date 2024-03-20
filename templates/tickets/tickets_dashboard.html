@@ -85,162 +85,232 @@
         </div>
         <div class="ticket-wrapper-checkbox">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="openTicketsCheckbox" checked>
+                <input class="form-check-input" type="checkbox" value="" id="openTicketsCheckbox">
                 <label class="form-check-label" for="openTicketsCheckbox">
                   Open Tickets
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="closedTicketsCheckbox" checked>
+                <input class="form-check-input" type="checkbox" value="" id="closedTicketsCheckbox">
                 <label class="form-check-label" for="closedTicketsCheckbox">
                   Closed Tickets
                 </label>
-            </div>        
+            </div>   
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="watchTicketsCheckbox">
+                <label class="form-check-label" for="watchTicketsCheckbox">
+                  Watched Tickets
+                </label>
+            </div>     
         </div>
-        <div class="table watched-tickets"  style="table-layout: fixed; width: 48.367vw; ">
-            <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 0vh 5vw 5vh 5vw;">
-                <tr style="background-color: #343a40 !important;">
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Created At</th>
-                    <th>Label Name</th>
-                    <th>Id</th>
-                    <th>Assigned To</th>
-                </tr>
-                {% for issue in issues %}
-                <tr class="{{ 'ticketOpen' if issue.state == 'opened' else 'ticketClosed' }}">
-                    <td>{{ issue.title }}</td>
-                    <td>{{ issue.description | default('No description', true) }}</td>
-                    <td>{{ issue.created_at }}</td>
-                    <td>
-                        {% if issue.labels %}
-                            {% for label in issue.labels %}
-                                {{ label }}
+        <div class="all-tickets">
+            <div class="open-tickets">
+                <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 0vh 5vw 5vh 5vw;">
+                    <tr style="background-color: #343a40 !important;">
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Created At</th>
+                        <th>Label Name</th>
+                        <th>Id</th>
+                        <th>Assigned To</th>
+                    </tr>
+                    {% for issue in issues %}
+                    <tr class="{{ 'ticketOpen' if issue.state == 'opened' else 'ticketClosed' }}">
+                        <td>{{ issue.title }}</td>
+                        <td>{{ issue.description | default('No description', true) }}</td>
+                        <td>{{ issue.created_at }}</td>
+                        <td>
+                            {% if issue.labels %}
+                                {% for label in issue.labels %}
+                                    {{ label }}
+                                    {% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                No labels
+                            {% endif %}
+                        </td>
+                        <td>{{issue.id}}</td>
+                        <td>
+                            {% if issue.assignee_username %}
+                            {% for assigned in issue.assignee_username %}
+                                {{ assignee_username }}
                                 {% if not loop.last %}, {% endif %}
                             {% endfor %}
                         {% else %}
-                            No labels
+                            Not Assigned
                         {% endif %}
-                    </td>
-                    <td>{{issue.id}}</td>
-                    <td>
-                        {% if issue.assignee_username %}
-                        {% for assigned in issue.assignee_username %}
-                            {{ assignee_username }}
-                            {% if not loop.last %}, {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        Not Assigned
-                    {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="closed-tickets">
+                <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 0vh 5vw 5vh 5vw;">
+                    <tr style="background-color: #343a40 !important;">
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Created At</th>
+                        <th>Label Name</th>
+                        <th>Id</th>
+                        <th>Assigned To</th>
+                    </tr>
+                    {% for issue in issues %}
+                    <tr class="{{ 'ticketClosed' if issue.state == 'opened' else 'ticketClosed' }}">
+                        <td>{{ issue.title }}</td>
+                        <td>{{ issue.description | default('No description', true) }}</td>
+                        <td>{{ issue.created_at }}</td>
+                        <td>
+                            {% if issue.labels %}
+                                {% for label in issue.labels %}
+                                    {{ label }}
+                                    {% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                No labels
+                            {% endif %}
+                        </td>
+                        <td>{{issue.id}}</td>
+                        <td>
+                            {% if issue.assignee_username %}
+                            {% for assigned in issue.assignee_username %}
+                                {{ assignee_username }}
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="watched-tickets">
+                <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 0vh 5vw 5vh 5vw;">
+                    <tr style="background-color: #343a40 !important;">
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Created At</th>
+                        <th>Label Name</th>
+                        <th>Id</th>
+                        <th>Assigned To</th>
+                    </tr>
+                    {% for issue in issues %}
+                    <tr class="{{ 'watched' if 'Watch' in issue.labels else ''  }} unwatched">
+                        <td>{{ issue.title }}</td>
+                        <td>{{ issue.description | default('No description', true) }}</td>
+                        <td>{{ issue.created_at }}</td>
+                        <td>
+                            {% if issue.labels %}
+                                {% for label in issue.labels %}
+                                    {{ label }}
+                                    {% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                No labels
+                            {% endif %}
+                        </td>
+                        <td>{{issue.id}}</td>
+                        <td>
+                            {% if issue.assignee_username %}
+                            {% for assigned in issue.assignee_username %}
+                                {{ assignee_username }}
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
     </div>
+    <div class="pagination">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="?page={{ page - 1 }}">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page + 1 }}">Next</a></li>
+            </ul>
+        </nav>
+    </div>    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- This is how to just use the checkbox to show table items based on their status-->
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var openTicketsCheckbox = document.getElementById('openTicketsCheckbox');
-            var closedTicketsCheckbox = document.getElementById('closedTicketsCheckbox');
-            
-            openTicketsCheckbox.addEventListener('change', function() {
-                document.querySelectorAll('.ticketOpen').forEach(function(ticket) {
-                    ticket.style.display = openTicketsCheckbox.checked ? '' : 'none';
-                });
-            });
-
-            closedTicketsCheckbox.addEventListener('change', function() {
-                document.querySelectorAll('.ticketClosed').forEach(function(ticket) {
-                    ticket.style.display = closedTicketsCheckbox.checked ? '' : 'none';
-                });
-            });
-        });    
-    </script> -->
-
-    <!-- This is how to just use the checkbox to show table items based on their status and search functionality using JQuery but it is redundant-->
-    <!-- <script>
-        var openTicketsCheckbox = document.getElementById('openTicketsCheckbox');
-        var closedTicketsCheckbox = document.getElementById('closedTicketsCheckbox');
-
+    <script>
         $(document).ready(function() {
-
-            // Search filter functionality
             $("#searchInput").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
                 $("#dataTable tr:not(:first)").filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
             });
-
-            // Toggle visibility based on 'Open Tickets' checkbox
-            openTicketsCheckbox.addEventListener('change', function() {
-                document.querySelectorAll('.ticketOpen').forEach(function(ticket) {
-                    ticket.style.display = openTicketsCheckbox.checked ? '' : 'none';
-                });
-            });
-
-
-            // Toggle visibility based on 'Closed Tickets' checkbox
-            closedTicketsCheckbox.addEventListener('change', function() {
-                document.querySelectorAll('.ticketClosed').forEach(function(ticket) {
-                    ticket.style.display = closedTicketsCheckbox.checked ? '' : 'none';
-                });
-            });
-        });
-    </script> -->
-
-    <!-- This is correct way using JQuery how to just use the checkbox to show table items based on their status-->
-    <script>
-        $(document).ready(function() {
-            // Search filter functionality
-            $("#searchInput").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                $("#dataTable tr:not(:first)").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-            });
-    
-            // Toggle visibility based on 'Open Tickets' checkbox
-            $('#openTicketsCheckbox').change(function() {
-                if (this.checked) {
-                    $('.ticketOpen').show();
-                } else {
-                    $('.ticketOpen').hide();
-                }
-            });
-    
-            // Toggle visibility based on 'Closed Tickets' checkbox
-            $('#closedTicketsCheckbox').change(function() {
-                if (this.checked) {
-                    $('.ticketClosed').show();
-                } else {
-                    $('.ticketClosed').hide();
-                }
-            });
         });
     </script>
+    // Filter functionality for 'Open Tickets' and 'Closed Tickets' checkboxes
     <script>
-        $(document).ready(function() {
-            $('#issueForm').submit(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: "/create_issue",
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        alert(response.message);
-                        $('#exampleModal').modal('hide');
-                    },
-                    error: function(xhr, status, error) {
-                        alert(xhr.responseJSON.message);
-                    }
-                });
+    $(document).ready(function() {
+        function applyFilters() {
+            var showOpen = $('#openTicketsCheckbox').is(':checked');
+            var showClosed = $('#closedTicketsCheckbox').is(':checked');
+            var showWatched = $('#watchTicketsCheckbox').is(':checked');
+
+            if (showOpen) {
+                $(".open-tickets tr.ticketOpen").show();
+            } else {
+                $(".open-tickets tr.ticketOpen").hide();
+            }
+
+            if (showClosed) {
+                $(".closed-tickets tr.ticketClosed").show();
+            } else {
+                $(".closed-tickets tr.ticketClosed").hide();
+            }
+
+            if (showWatched) {
+                $(".watched-tickets tr.watched").show();
+            } else {
+                $(".watched-tickets tr.watched").hide();
+                $(".watched-tickets tr.unwatched").hide();
+            }
+        }
+
+        $('#openTicketsCheckbox, #closedTicketsCheckbox, #watchTicketsCheckbox').change(function() {
+            applyFilters();
+        });
+
+        applyFilters();
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var watchTickets = document.getElementById('watchTickets');
+        
+        watchTickets.addEventListener('change', function() {
+            document.querySelectorAll('.watchTicket').forEach(function(ticket) {
+                ticket.style.display = watchTickets.checked ? '' : 'none';
             });
         });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> 
+    });   
+</script>
+<script>
+    $(document).ready(function() {
+        $('#issueForm').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/create_issue",
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert(response.message);
+                    $('#exampleModal').modal('hide');
+                },
+                error: function(xhr, status, error) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> 
 </body>
 </html>

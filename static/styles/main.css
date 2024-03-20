@@ -9,44 +9,114 @@
 body{
     background-color: var(--lightGray);
     margin: 0px;
-    margin-bottom: 5vh;
 }
 
 
-button, .main-button-style{
-    background-color: var(--darkRed);
+button, .main-button-style, .landing-page button{
+    opacity: 70%;
     color: white;
     border-radius: 0.25rem;
 }
 
-.index-buttons-wrapper button{
+button :hover, .main-button-style:hover, .landing-page button:hover{
+    opacity: 100%;
+    color: white;
+}
+
+.login-page, .register-page{
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.login-box, .register-box{
+    flex-direction: column;
+    width: 100vw;
+    height: 16.153071500503525vh;
+    padding: 30vh 45vw;
+}
+
+.landing-search, .landing-page{
+    height: 47vh;
+    padding: 0vh 30vw;
+}
+
+.landing-search input{
+    opacity: 70%;
+}
+
+.landing-search input:hover{
+    opacity: 100%;
+}
+
+.landing-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-register-page button:nth-child(n + 1){
+    margin-left: 10px;
+    
+}
+
+.landing-parallax-image{
+    background-image: url("../styles/landing-page.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+    background-color: #C3B470;
 
 }
 
-.butto{
-    display: inline-block;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    background-color: transparent;
-    border: 1px solid transparent;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    border-radius: 0.25rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+.landing-page-tiles{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    grid-gap: 10vw;
+    justify-content: space-around;
+    padding: 10vh 10vw 0vh 10vw;
 }
+
+.landing-page-tiles button{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: center;
+    width: 33%;
+    height: 25vh;
+    background-color: var(--almostBlack);
+    border: var(--almostBlack)solid 1px;
+    color: White;
+}
+
+.landing-page-tiles button:hover{
+    background-color: var(--Gray);
+    border: var(--Gray) solid 1px;
+    transition: 1s;
+}
+
+.contacts-tile-icon i{
+    font-size: 3rem;
+    justify-content: space-around;
+    align-items: center;
+}
+.contacts-tile-icon img{
+    height: 10vh;
+    width: auto;
+}
+
+
 
 .index-buttons-wrapper{
     display: flex;
     justify-content: space-around;
-
 }
 
 .index-wrapper button{
@@ -55,34 +125,6 @@ button, .main-button-style{
     border-radius: 0.25rem;
     border: 1px solid transparent;
     background-color: var(--darkRed);
-}
-
-.index-wrapper button::hover{
-    transition: blue .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-
-}
-
-.ticket-type button{
-    /* background-color: #C90404;
-    border-color: #C90404;
-    color: #fff;
-    display: inline-block;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    background-color: transparent;
-    border: 1px solid transparent;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    border-radius: 0.25rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; */
 }
 
 .tft-link-wrapper{
@@ -96,17 +138,71 @@ button, .main-button-style{
     align-items: center;
 }
 
-.navbar-expand .navbar-collapse {
-    justify-content: space-around;
-    margin-right: 1vw;
+.landing-search img{
+    position: relative;
+    height: 30vh;
 }
 
+.navbar-expand .navbar-collapse {
+    margin-left: 1vw;
+
+}
+
+.navbar-end{
+    justify-content: end;
+}
+
+.dropdown-menu{
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    position: absolute;
+    right: .25vw;
+  }
 
 .index-wrapper{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 15vh 50vh 10vh;
     justify-content: center;
+}
+
+#searchInput{
+    height: 4rem;
+}
+
+.landing-search button{
+    background-color: #343A40;
+    height: 4rem;
+    width:12rem;
+    margin-left: 1vw;
+    border: --almostBlack solid 1px;
+    color: white;
+}
+
+.landing-search button:hover{
+    background-color: var(--Gray);
+    height: 4rem;
+    width:12rem;
+    margin-left: 1vw;
+    border: var(--Gray) solid 1px;
+    transition: 1s;
+    color: white;
 }
 
 
@@ -116,11 +212,6 @@ button, .main-button-style{
     align-content: center;
 }
 
-.watched-tickets table{
-    display: flex;
-    justify-content: center;
-    justify-items: center;
-}
 
 .nav-bar{
     width: 100vw;
@@ -171,11 +262,6 @@ align-items: center;
     padding-left: 1vw;
 }
 
-/* .ticket-wrapper{
-    display: grid;
-    grid-template-rows: 50vh 50vh;
-} */
-
 .profile-icon i{
     font-size: 25vh;
 }
@@ -196,12 +282,17 @@ align-items: center;
 .ticket-wrapper{
     display: grid;
     grid-template-rows: 10vh 10vh 82vh;
-    column-gap: 5vw;
+}
+
+.ticket-wrapper table{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
 }
 
 .ticket-wrapper-checkbox{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     justify-items: center;
 }
@@ -218,31 +309,54 @@ align-items: center;
     width: 20vw;
 }
 
+.access-management-checkbox{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+table>table
+
 .dashboard-tickets{
     display: flex;
     justify-content:center;
+}
+
+.pagination{
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+}
+
+.page-item{
+    width: 4.5vw;
+}
+
+.page-item a{
+    display: flex;
+    justify-content: space-around;
+    color: #C90404;
 }
 
 .reports-wrapper {
     padding-top: 30vh;
     padding-left: 15vw;
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Creates 3 columns */
-    gap: 20px; /* Adjust the gap between the tiles as needed */
-    justify-content: center; /* Horizontally center the grid container if it has a fixed width or max-width */
-    align-content: center; /* Vertically center the grid container if it has a fixed height or max-height */
-    /* Optional: Set a fixed or maximum width for the wrapper to center it */
-     /* Example width, adjust as needed */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; 
+    justify-content: center; 
+    align-content: center; 
+
 }
 
 .report-tile{
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center the content horizontally within each tile */
-    align-items: center; /* Center the content vertically within each tile */
-    text-align: center; /* Center the text inside the div and i elements */
-    padding: 20px; /* Adjust padding as needed */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */ /* Include padding and border in the element's total width and height */
+    justify-content: center; 
+    align-items: center;
+    text-align: center; 
+    padding: 20px; 
+    box-sizing: border-box; 
     height: 15vh;
     width: 15vw;
     background-color: var(--darkRed);
@@ -289,10 +403,6 @@ align-items: center;
 tr:hover{
     background-color: tan !important;
     transition-duration: .75s;
-}
-
-.navbar-wrapper{
-
 }
 
 .table {
@@ -367,17 +477,16 @@ tr:hover{
 
 .tft-tft-link-wrapper {
     display: flex;
-    justify-content: space-between; /* Or 'flex-start' for left-aligned */
-    padding: 0.5rem 0; /* Example padding */
+    justify-content: space-between; 
+    padding: 0.5rem 0; 
 }
 
 .tft-tft-link-wrapper a {
     text-decoration: none;
-    color: #ffffff; /* Assuming you want white text for 'navbar-dark' */
-    margin-right: 15px; /* Space between links */
+    color: #ffffff; 
+    margin-right: 15px;
 }
 
-/* Optional: Add a hover effect to the links */
 .tft-tft-link-wrapper a:hover {
     color: #cccccc;
 }
@@ -395,3 +504,99 @@ tr:hover{
 .ticket-type bottom:hover {
     border: #C3B470 solid 2px;
 }
+
+.tiles{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10vw;
+    justify-content: space-between;
+    padding: 10vh 10vw 0vh 10vw;
+}
+
+.tiles button{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: center;
+    width: 100%;
+    height: 25vh;
+    background-color: var(--almostBlack);
+    border: var(--almostBlack)solid 1px;
+    color: White;
+}
+
+.tiles button:hover, .landing-page-tiles button:hover{
+    background-color: var(--Gray);
+    border: var(--Gray) solid 1px;
+    transition: 1s;
+}
+
+.contacts-tile-icon i, .account-management-tile-icon i, .create-ticket-tile-icon i{
+    font-size: 3rem;
+    justify-content: space-around;
+    align-items: center;
+}
+.account-management-tile-icon img, .create-ticket-tile-icon img, .contacts-tile-icon img{
+    height: 10vh;
+    width: auto;
+}
+
+.username{
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+    margin: 0px;
+    color: white;
+}
+
+.landing-search{
+    box-shadow: 0 7px 6px -6px #222;
+}
+
+.login-register-page-btn a{
+    text-decoration: none;
+    color: white;
+}
+
+.contact-list {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-list li {
+    margin-bottom: 20px;
+}
+
+.contact-icon {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.contact-icon:hover {
+    opacity: 0.7;
+}
+
+#knowledgeList {
+    margin: 20px;
+}
+
+.knowledgeItem {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+#knowledgeDetail {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.login-register-page button{
+    background-color: var(--almostBlack);
+    opacity: 75%;
+} 
