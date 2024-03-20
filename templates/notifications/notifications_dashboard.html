@@ -8,32 +8,86 @@
     <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>TaskForce Tracker</title>
+    <style>
+        .notification {
+            cursor: pointer;
+            border-left: 4px solid #007bff;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        .notification-read {
+            border-left-color: #6c757d;
+            background-color: #e9ecef;
+        }
+
+        .notification-read td {
+            font-weight: normal;
+        }
+
+        .notification td {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar-wrapper">
         <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
             <div class="tft-link-wrapper">
-                <a class="navbar-brand" onclick="window.location.href='/';" style="padding-left: 1vw;">TaskForce Tracker</a>
+                <a class="navbar-brand" onclick="window.location.href='index';" style="padding-left: 1vw;">TaskForce Tracker</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="search-bar-wrapper collapse navbar-collapse" id="navbarsExample02">
-                    <form class="form-inline my-3 my-md-0">
-                        <input class="form-control" type="text" id="searchInput" placeholder="Search">
-                    </form>
+                <div class="collapse navbar-collapse" id="navbarsExample06">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href='ticket-dashboard';">Ticket Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href='reports-dashboard';">Reports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href='notifications-dashboard';">Notifications</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href='knowledge-base';">Knowledge Base</a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="collapse navbar-collapse" id="navbarsExample02">
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                      <a class="nav-link" onclick="window.location.href='profile';">Welcome Major Davis<span class="sr-only">(current)</span></a>
+                <div class="collapse navbar-collapse navbar-end dropdown" id="navbarsExample06">
+                    <h3 class="username nav-item">{{current_user.username}}</h3>
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-content" aria-labelledby="dropdown06">
+                        <a class="dropdown-item" onclick="window.location.href='profile';">Profile</a>
+                        <a class="dropdown-item" onclick="window.location.href='logout';">Logout</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Logout</a>
-                    </li>
-                  </ul>
+                    </ul>
                 </div>
             </div>
-          </nav>    
+        </nav>    
+    </div>
+    <div id="notification-container" class="container mt-5">
+        <h2>Notifications</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody id="notification-table-body">
+                <!-- Notifications will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <!-- <div class="container mt-5">
+        <h2>Notifications</h2>
+        <div id="notification-container"></div>
     </div>
     <div class="notifications-wrapper">
         <div class="table watched-tickets">
@@ -72,7 +126,7 @@
                 </tr>
             </table>
         </div>
-    </div>
+    </div> -->
     <script>
         $(document).ready(function() {
             $("#searchInput").on("keyup", function() {
@@ -82,6 +136,140 @@
                 });
             });
         });
+    </script>
+    <script>
+        function fetchNotifications() {
+    fetch('/notifications')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('notification-table-body');
+            tableBody.innerHTML = ''; // Clear previous notifications
+            data.forEach(notification => {
+                const row = tableBody.insertRow();
+                row.className = 'notification'; // Initial state is bold (unread)
+                row.innerHTML = `<td>${notification.title}</td><td>${notification.message}</td>`;
+                row.addEventListener('click', () => markNotificationAsRead(notification.id, row));
+            });
+            if (data.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="2">No new notifications</td></tr>';
+            }
+        });
+}
+
+function markNotificationAsRead(id, rowElement) {
+    fetch('/notifications/read', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: id }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            rowElement.classList.add('notification-read'); // Change font to normal (read)
+            rowElement.classList.remove('notification'); // Optionally remove the unread class
+        }
+    });
+}
+
+setInterval(fetchNotifications, 5000); // Poll for new notifications every 5 seconds
+fetchNotifications(); // Also fetch immediately on page load
+    </script>
+    <!-- <script>
+        function fetchWatchTickets() {
+            fetch('/check-watch-tickets')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        // Logic to display notifications on the page
+                        alert('New "Watch" ticket detected!');
+                        // You can customize this part to display the notification in a more user-friendly way
+                    }
+                })
+                .catch(error => console.error('Error fetching watch tickets:', error));
+        }
+        
+        // Poll every 60 seconds
+        setInterval(fetchWatchTickets, 60000);
+        
+        // Fetch immediately on page load
+        fetchWatchTickets();
+        </script>
+    <script>
+        function fetchNotifications() {
+            fetch('/notifications')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('notification-container');
+                    container.innerHTML = ''; // Clear previous notifications
+                    data.forEach(n => {
+                        const div = document.createElement('div');
+                        div.className = 'notification';
+                        div.innerHTML = `<div class="notification-title">${n.title}</div><div class="notification-message">${n.message}</div>`;
+                        div.addEventListener('click', () => markNotificationAsRead(n.id, div));
+                        container.appendChild(div);
+                    });
+                });
+        }
+
+        function markNotificationAsRead(id, element) {
+            fetch('/notifications/read', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({id: id}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    element.classList.add('notification-read');
+                }
+            });
+        }
+
+        setInterval(fetchNotifications, 5000); // Poll for new notifications every 5 seconds
+        fetchNotifications(); // Also fetch immediately on page load
+    </script>  -->
+    <script>
+        function fetchNotifications() {
+            fetch('/notifications')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('notification-container');
+                    container.innerHTML = ''; // Clear previous notifications
+                    data.forEach(n => {
+                        const div = document.createElement('div');
+                        div.className = 'notification';
+                        div.innerHTML = `<strong>${n.title}</strong><p>${n.message}</p>`;
+                        div.addEventListener('click', () => markNotificationAsRead(n.id, div));
+                        container.appendChild(div);
+                    });
+                    if (data.length === 0) {
+                        container.innerHTML = '<p>No new notifications</p>';
+                    }
+                });
+        }
+
+        function markNotificationAsRead(id, element) {
+            fetch('/notifications/read', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: id }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    element.classList.add('notification-read');
+                }
+            });
+        }
+
+        setInterval(fetchNotifications, 5000); // Poll for new notifications every 5 seconds
+        fetchNotifications(); // Also fetch immediately on page load
     </script>
 </body>
 </html>

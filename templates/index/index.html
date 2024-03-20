@@ -14,49 +14,52 @@
     </style>
 </head>
 <body class="landing-page-wrapper">
-        <div class="navbar-wrapper">
-            <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
-                <div class="tft-link-wrapper">
-                    <a class="navbar-brand" href="#" style="padding-left: 1vw;">TaskForce Tracker</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarsExample06">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" onclick="window.location.href='ticket-dashboard';">Ticket Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" onclick="window.location.href='reports-dashboard';">Reports</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" onclick="window.location.href='notifications-dashboard';">Notifications</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" onclick="window.location.href='knowledge-base';">Knowledge Base</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="collapse navbar-collapse navbar-end dropdown" id="navbarsExample06">
-                        <h3 class="username nav-item">{{current_user.username}}</h3>
-                        <ul class="navbar-nav mr-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa-solid fa-user"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-content" aria-labelledby="dropdown06">
-                            <a class="dropdown-item" onclick="window.location.href='profile';">Profile</a>
-                            <a class="dropdown-item" onclick="window.location.href='logout';">Logout</a>
-                            </div>
-                        </li>
-                        </ul>
-                    </div>
+    <div class="navbar-wrapper">
+        <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
+            <div class="tft-link-wrapper">
+                <a class="navbar-brand" href="#" style="padding-left: 1vw;">TaskForce Tracker</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarsExample06">
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='ticket-dashboard';">Ticket Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='reports-dashboard';">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='notifications-dashboard';">Notifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='knowledge-base';">Knowledge Base</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li> -->
+                    </ul>
                 </div>
-            </nav>    
-        </div>
+                <div class="collapse navbar-collapse navbar-end dropdown" id="navbarsExample06">
+                    <h3 class="username nav-item">{{current_user.username}}</h3>
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-content" aria-labelledby="dropdown06">
+                        <a class="dropdown-item" onclick="window.location.href='profile';">Profile</a>
+                        <a class="dropdown-item" onclick="window.location.href='logout';">Logout</a>
+                        </div>
+                    </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>    
+    </div>
         <div class="search-bar-wrapper landing-search landing-parallax-image" id="navbarsExample02">
             <form class="form-inline my-3 my-md-0">
-                <input class="form-control" type="text" id="searchInput" placeholder="Search">
+                <input class="form-control" type="text" id="searchInputHome" placeholder="Search">
             </form>
             <button class="btn " type="submit">Search</button>
         </div>

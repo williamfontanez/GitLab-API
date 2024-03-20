@@ -6,6 +6,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
 import requests
+from datetime import datetime
 import os
 
 GITLAB_TOKEN = os.getenv('gitlab_token')
@@ -54,6 +55,17 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+class Notification(db.Model):
+    __tablename__ = 'notification'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    is_read = db.Column(db.Boolean, default=False, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime)
+
+    def __repr__(self):
+        return f'<Notification {self.title}>'
 
 @app.before_request
 def create_tables():
@@ -156,8 +168,60 @@ def ticket_dashboard():
         error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
         return render_template('tickets/tickets_dashboard2.html', error_message=error_message)
 
-@app.route('/create_issues', methods=['GET', 'POST'])
-def create_issues():
+# @app.route('/create_issues', methods=['GET', 'POST'])
+# def create_issues():
+#     if request.method == 'POST':
+#         title = request.form['title']
+#         description = request.form['description']
+#         headers = {
+#             'PRIVATE-TOKEN': GITLAB_TOKEN,
+#             'Content-Type': 'application/json'
+#         }
+#         url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues'
+#         data = {
+#             'title': title,
+#             'description': description
+#         }
+#         response = requests.post(url, headers=headers, json=data)
+#         if response.status_code == 201:
+#             return render_template('tickets/tickets_dashboard.html', title=title)
+#         else:
+#             error_message = f"Failed to create issue in GitLab. Status Code: {response.status_code}"
+#             return render_template('tickets/create_issue_form.html', error=error_message)
+
+# @app.route('/create_issues', methods=['GET', 'POST'])
+# def create_issues():
+#     if request.method == 'POST':
+#         title = request.form['title']
+#         description = request.form['description']
+#         headers = {
+#             'PRIVATE-TOKEN': GITLAB_TOKEN,
+#             'Content-Type': 'application/json'
+#         }
+#         url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues'
+#         data = {
+#             'title': title,
+#             'description': description
+#         }
+#         response = requests.post(url, headers=headers, json=data)
+#         if response.status_code == 201:
+#             # If the ticket is successfully created in GitLab, create a notification
+#             notification_title = "New GitLab Ticket"
+#             notification_message = f"New ticket was created: {title}"
+#             new_notification = Notification(title=notification_title, message=notification_message)
+#             db.session.add(new_notification)
+#             db.session.commit()
+
+#             return render_template('tickets/tickets_dashboard.html', title=title)
+#         else:
+#             error_message = f"Failed to create issue in GitLab. Status Code: {response.status_code}"
+#             return render_template('tickets/create_issue_form.html', error=error_message)
+
+
+# actal
+
+@app.route('/create_issue', methods=['GET', 'POST'])
+def create_issue():
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
@@ -172,41 +236,26 @@ def create_issues():
         }
         response = requests.post(url, headers=headers, json=data)
         if response.status_code == 201:
-            return render_template('tickets/tickets_dashboard.html', title=title)
+            # Assuming you want to create a notification at this point
+            new_notification = Notification(
+                title='New GitLab Ticket',
+                message=f'New ticket was created: {title}',
+                is_read=False,
+                created_at=datetime.utcnow()  # Correctly setting the datetime
+            )
+            db.session.add(new_notification)
+            try:
+                db.session.commit()
+                # Consider redirecting or responding that both issue creation and notification were successful
+                return jsonify({'success': True, 'message': 'Issue and notification created successfully'})
+            except Exception as e:
+                db.session.rollback()
+                return jsonify({'success': False, 'message': 'Failed to create notification', 'error': str(e)}), 500
+
         else:
             error_message = f"Failed to create issue in GitLab. Status Code: {response.status_code}"
-            return render_template('tickets/create_issue_form.html', error=error_message)
-
-@app.route('/create_issue', methods=['POST'])
-def create_issue():
-    title = request.form['title']
-    description = request.form['description']
-    issue_type = request.form['issueType']
-    watch_ticket = 'watch' in request.form
-
-    labels = f"A::B::{issue_type.replace(' ', '')}"
-    if watch_ticket:
-        labels += ",Watch"
-    
-    assignee_id = 'williamfontanez' if issue_type == 'Create New Account' else 'ticket-assess-token'
-
-    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues'
-    data = {
-        'title': title,
-        'description': description,
-        'labels': labels,
-        # 'assignee_id': assignee_id, # Uncomment and replace with actual ID after fetching from GitLab
-    }
-
-    headers = {
-        'PRIVATE-TOKEN': GITLAB_TOKEN
-    }
-
-    response = requests.post(url, headers=headers, data=data)
-    if response.status_code == 201:
-        return jsonify({"success": True, "message": "Issue created successfully"})
-    else:
-        return jsonify({"success": False, "message": "Failed to create issue"}), 400
+            # Handle the error appropriately
+            return jsonify({'success': False, 'message': error_message}), response.status_code
 
 @app.route('/total_issues')
 def total_issues():
@@ -227,6 +276,22 @@ def total_issues():
 def ticket_issue():
     return render_template('tickets/ticket_issue.html')
 
+@app.route('/check-watch-tickets')
+def check_watch_tickets():
+    headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
+    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?labels=Watch'
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        issues = response.json()
+        # Optionally, filter issues by creation date or other criteria here
+        return jsonify(issues)
+    else:
+        return jsonify({"error": "Failed to fetch issues"}), response.status_code
+
+@app.route('/reports-a')
+def reports_a():
+    return render_template('reports/report-a.html')
+
 @app.route('/reports-dashboard')
 def reports_dashboard():
     return render_template('reports/reports_dashboard.html')
@@ -234,6 +299,26 @@ def reports_dashboard():
 @app.route('/notifications-dashboard')
 def notifications_dashboard():
     return render_template('notifications/notifications_dashboard.html')
+
+@app.route('/notifications')
+def notifications():
+    notifications = Notification.query.filter_by(is_read=False).all()
+    return jsonify([{
+        'id': n.id,
+        'title': n.title,
+        'message': n.message,
+        'created_at': n.created_at
+    } for n in notifications])
+
+@app.route('/notifications/read', methods=['POST'])
+def mark_as_read():
+    notification_id = request.json.get('id')
+    notification = Notification.query.get(notification_id)
+    if notification:
+        notification.is_read = True
+        db.session.commit()
+        return jsonify({'success': True})
+    return jsonify({'error': 'Notification not found'}), 404
 
 @app.route('/knowledge-base')
 def knowledge_base():

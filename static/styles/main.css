@@ -12,15 +12,20 @@ body{
 }
 
 
-button, .main-button-style, .landing-page button{
+/* button, .main-button-style, .landing-page button{
     opacity: 70%;
     color: white;
     border-radius: 0.25rem;
-}
+} */
 
-button :hover, .main-button-style:hover, .landing-page button:hover{
+/* button :hover, .main-button-style:hover, .landing-page button:hover{
     opacity: 100%;
     color: white;
+} */
+
+.tft-link-wrapper, .tft-link-wrapper-landing{
+    display: grid;
+    grid-template-columns: 10vw 74vw 14vw;
 }
 
 .login-page, .register-page{
@@ -31,6 +36,24 @@ button :hover, .main-button-style:hover, .landing-page button:hover{
     align-items: center;
     height: 100%;
     width: 100%;
+}
+
+.ticket-search-bar{
+    width: 100vw;
+    height: 4vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ticket-search-bar>.form-inline{
+    display: flex;
+    flex-direction: row;
+}
+
+.form-inline button{
+    color: white;
+    opacity: 70%;
 }
 
 .login-box, .register-box{
@@ -112,8 +135,6 @@ button :hover, .main-button-style:hover, .landing-page button:hover{
     width: auto;
 }
 
-
-
 .index-buttons-wrapper{
     display: flex;
     justify-content: space-around;
@@ -127,7 +148,7 @@ button :hover, .main-button-style:hover, .landing-page button:hover{
     background-color: var(--darkRed);
 }
 
-.tft-link-wrapper{
+.tft-link-wrapper .tft-link-wrapper-landing{
     display: grid;
     grid-template-columns: 10vw 74vw 14vw;
 }
@@ -153,20 +174,20 @@ button :hover, .main-button-style:hover, .landing-page button:hover{
 }
 
 .dropdown-menu{
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
+    .dropdown {
+    position: relative;
+    display: inline-block;
+    }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  padding: 12px 16px;
-  z-index: 1;
-}
+    .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    }
 }
 
 .dropdown:hover .dropdown-content {
@@ -182,8 +203,13 @@ button :hover, .main-button-style:hover, .landing-page button:hover{
     justify-content: center;
 }
 
-#searchInput{
+#searchInputHome{
     height: 4rem;
+}
+
+#searchInput{
+    height: 3rem;
+    width: 10rem
 }
 
 .landing-search button{
@@ -281,7 +307,7 @@ align-items: center;
 
 .ticket-wrapper{
     display: grid;
-    grid-template-rows: 10vh 10vh 82vh;
+    grid-template-rows: 10vh 10vh 10vh 82vh;
 }
 
 .ticket-wrapper table{
@@ -364,10 +390,27 @@ table>table
     border-radius: 0.25rem;
 }
 
+.report-a{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 6vh;
+}
+
+.report-a img{
+    width: 80vw;
+    height: auto;
+}
+
 .report-tile i{
     padding-top: 1vh;
     color: tan;
     font-size: 24px;
+}
+
+.model-body img{
+    height: auto;
+    width: 20vw;
 }
 
 .middle-text p {
@@ -436,7 +479,7 @@ tr:hover{
     
 }
 
-.tft-navbar {
+.tft-navbar{
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -549,7 +592,7 @@ tr:hover{
     color: white;
 }
 
-.landing-search{
+.landing-search, .login-register-page{
     box-shadow: 0 7px 6px -6px #222;
 }
 
@@ -600,3 +643,23 @@ tr:hover{
     background-color: var(--almostBlack);
     opacity: 75%;
 } 
+
+.notification {
+    background-color: #f9f9f9;
+    border-left: 5px solid #007bff;
+    margin-bottom: 5px;
+    padding: 10px;
+    position: relative;
+}
+.notification:hover {
+    background-color: #e9e9e9;
+}
+.notification-read {
+    border-left-color: #cccccc;
+}
+.notification-title {
+    font-weight: bold;
+}
+.notification-message {
+    margin-top: 5px;
+}

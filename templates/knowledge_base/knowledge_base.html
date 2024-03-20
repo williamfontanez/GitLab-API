@@ -10,59 +10,82 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <title>TaskForce Tracker</title>
 </head>
-<style>
+  <style>
+    #dataTable tr {
+      background-color: #343a40;
+      text-decoration: none;
+    }
     #dataTable tr:hover {
         cursor: pointer;
-        background-color: #f5f5f5; 
     }
 
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%; 
-  overflow: auto; 
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
-}
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%; 
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+    }
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; 
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; 
-}
-</style>
+    .modal-content {
+      background-color: #fefefe;
+      color: #000;
+      margin: 15% auto; 
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; 
+    }
+
+    .modal-backdrop.show {
+    opacity: 0.5; /* Adjust backdrop opacity to lighten the screen darkening */
+    }
+  </style>
 <body>
-    <div class="navbar-wrapper">
-        <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
-            <div class="tft-link-wrapper">
-                <a class="navbar-brand" onclick="window.location.href='/';" style="padding-left: 1vw;">TaskForce Tracker</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="search-bar-wrapper collapse navbar-collapse" id="navbarsExample02">
-                    <form class="form-inline my-3 my-md-0">
-                        <input class="form-control" type="text" id="searchInput" placeholder="Search">
-                    </form>
-                </div>
-                <div class="collapse navbar-collapse" id="navbarsExample02">
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                      <a class="nav-link" onclick="window.location.href='profile';">Welcome Major Davis<span class="sr-only">(current)</span></a>
+  <div class="navbar-wrapper">
+    <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
+        <div class="tft-link-wrapper">
+            <a class="navbar-brand" href="#" style="padding-left: 1vw;">TaskForce Tracker</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarsExample06">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='ticket-dashboard';">Ticket Dashboard</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Logout</a>
+                        <a class="nav-link" onclick="window.location.href='reports-dashboard';">Reports</a>
                     </li>
-                  </ul>
-                </div>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='notifications-dashboard';">Notifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='knowledge-base';">Knowledge Base</a>
+                    </li>
+                </ul>
             </div>
-          </nav>    
-    </div>
+            <div class="collapse navbar-collapse navbar-end dropdown" id="navbarsExample06">
+                <h3 class="username nav-item">{{current_user.username}}</h3>
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-content" aria-labelledby="dropdown06">
+                    <a class="dropdown-item" onclick="window.location.href='profile';">Profile</a>
+                    <a class="dropdown-item" onclick="window.location.href='logout';">Logout</a>
+                    </div>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </nav>    
+</div>
     <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -86,15 +109,15 @@
                 <th>Action Item</th>
             </tr>
         </thead>
-        <tbody onclick="">
-            <tr>
-                <td>Account Creation Process</td>
+        <tbody id="knowledgeList">
+            <tr class="knowledgeItem" data-id="Account Creation Process">
+                <td >Account Creation Process</td>
                 <td>Explains the account creation process</td>
                 <td>Account Management</td>
                 <td>0/0/0000</td>
                 <td>
                     <div class="action-item-icons">
-                        <i class="fa-solid fa-eye" data-bs-toggle="modal" data-bs-target="#pdfModal" data-pdf-url="path/to/your/pdf.pdf"></i>
+                        <i class="fa-solid fa-eye" data-bs-toggle="modal" data-bs-target="#pdfModal" data-pdf-url="/path/to/your/pdf.pdf"></i>
                         <i class="fa-regular fa-pen-to-square"></i>
                         <i class="fa-solid fa-download"></i>
                         <i class="fa-solid fa-envelope"></i>
@@ -103,19 +126,91 @@
         </tbody>
     </table>
 
-    <div id="knowledgeList">
-      <button class="knowledgeItem" data-id="1">Knowledge Item 1</button>
+    <!-- <div id="knowledgeList">
+      <button class="knowledgeItem" data-id="1">Account Creation Process</button>
       <button class="knowledgeItem" data-id="2">Knowledge Item 2</button>
       <!-- Add more knowledge items here -->
-  </div>
+  <!-- </div> -->
   
-  <div id="knowledgeDetail" style="display: none;">
-      <h2 id="knowledgeTitle"></h2>
-      <p id="knowledgeContent"></p>
-      <button id="editSuggestion">Suggest Edit</button>
-      <button id="sendTo">Send To</button>
-      <button id="download">Download</button>
-  </div>
+      <div id="knowledgeDetail" style="display: none;">
+        <div class="heading" style="display: flex;">
+          <h2 id="knowledgeTitle"></h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw;"></button>
+        </div>
+          <h2 id="knowledgeTitle"></h2>
+          <p id="knowledgeContent"></p>
+          <button id="openPDF">Open PDF</button>
+          <button id="editSuggestion">Suggest Edit</button>
+          <button id="sendTo">Send To</button>
+          <button id="download">Download</button>
+          <div class="pdfDiv" id="pdfDiv" style="display: none; height: auto; width: 40vw">
+            Creating New Customer Accounts
+This article reviews how to create customer accounts independently as well as through the "create agreement" process.
+
+Oct 5, 2022•Knowledge Article
+Details
+You can create Customer Accounts via Accounts or during the Create Agreement process. This guide will walk users through each method.
+
+
+Creating a Customer Account
+1. Select Accounts from the sidebar.
+
+2. Click the Create New Account button.
+ 
+
+create new account.png
+
+3. Enter the Account Name, Account Type, and Business Unit assignment (if applicable).
+
+image.png
+4. Enter the Service Contact and Service Address information. When entering in an address, click the suggestion to ensure the location address is validated. The address will appear on the map panel to the right.
+
+Note: If entering a location with a unit or apartment number: Enter the primary address first, click the validated address suggestion, then click the drop-down arrow to reveal the address details. Add the unit, or apartment number, in Line Two text box.
+ 
+
+image.png
+
+5. If necessary, remove the checkmarks from the Billing Contact and Billing Address boxes if they will be different than the information entered above.
+
+image.png
+
+6. Once the information is entered, click the Save button towards the top-right of the window. Or, click Save and Add Another if you wish to save this contact and create another.
+
+image.png
+
+Creating a Customer Account while Creating an Agreement
+Some companies benefit from having a simplified workflow for adding a Customer Account while simultaneously saving the information as a Lead, Opportunity (estimate), or new Agreement (job).
+
+1. Select Sales from the sidebar and then click the Create Agreement button.
+
+image.png
+
+2. Select the Create New option.
+
+image.png
+
+3. Enter the Account Information, Contact Details, and Service Location Information details.
+
+image.png
+4. In the Service Location Information section, you can define a Zone, add a Service Memo, and add Property Traits.
+
+-- Zones are color-coded flags which are used to organize customer service locations. They provide a visual aid that can make scheduling visits easier and can also be used as a filter when generating reports.  Refer to the article called Zones to learn more about managing Zones.
+ 
+-- Service Memos are notes that will appear on all Work Orders and in the Mobile App for technicians when they perform service at this location.
+ 
+-- Property Traits can also be added if the business records and/or bills based on specific traits, such as a lot size, number of rooms, or number of windows, etc. Using Property Traits to learn more about adding or editing Property Traits.
+ 
+image.png
+
+5. In the Sales Information section, you can add a Marketing Campaign and Inquiry Reason. In addition, an internal Follow-Up Date and Follow-Up Note can be entered for reference and reporting purposes.
+
+image.png
+6. After all of the above information is entered, click the Next button to proceed with the Create Agreement process, or click the Save Lead button to revisit the information later.
+
+image.png
+To continue learning about the Create Agreement process, see About Managing Agreements. For more information on Managing Leads, refer to Lead Management.
+          </div>
+      </div>
     </div>
 <script>
     $(document).ready(function() {
@@ -136,6 +231,21 @@
           var pdfModal = new bootstrap.Modal(document.getElementById('pdfModal'));
           pdfModal.show();
       });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    $('#openPDF').click(function() {
+      $('#pdfDiv').show(); // Make sure this matches the ID of your div
+    });
+  });
+  </script>
+
+<script>
+  $(document).ready(function() {
+    $('.btn-close').click(function(){
+      $('#knowledgeDetail').hide();
+    });
   });
 </script>
 <script>
@@ -184,7 +294,7 @@ window.onclick = function(event) {
 });
 
 function displayKnowledgeDetail(id) {
-    const knowledgeTitle = `Knowledge Item ${id}`;
+    const knowledgeTitle = `Knowledge Item: ${id}`;
     const knowledgeContent = `Details for Knowledge Item ${id}.`;
 
     document.getElementById('knowledgeTitle').innerText = knowledgeTitle;
@@ -192,6 +302,11 @@ function displayKnowledgeDetail(id) {
     document.getElementById('knowledgeDetail').style.display = 'block';
 }
 </script>
+<script>
+  $('#openPDF').click(function() {
+      $('#pdfDiv').show(); // This will change the display to 'block'
+  });
+  </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
