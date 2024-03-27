@@ -31,9 +31,6 @@
                     <li class="nav-item">
                         <a class="nav-link" onclick="window.location.href='knowledge-base';">Knowledge Base</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li> -->
                     </ul>
                 </div>
                 <div class="collapse navbar-collapse navbar-end dropdown" id="navbarsExample06">
@@ -54,24 +51,36 @@
         </nav>    
     </div>
     <ul class="contact-list">
-        <li>
-            <span class="name">Cloud Team</span> - 
-            <span class="reason">This team is responsible for creating anrelevent accounts for MME</span> - 
-            <span class="email">cloudbox.com</span>
-            <div class="contact-icons">
-                <span class="contact-icon" data-type="email" title="Email">📧</span>
-                <span class="contact-icon" data-type="teams" title="Microsoft Teams">💬</span>
-            </div>
-        </li>
-        <li>
-            <span class="name">Development Team/span> - 
-            <span class="reason">Contact this team if you are experencing an bug related issues to the application</span> - 
-            <span class="email">devbox.com</span>
-            <div class="contact-icons">
-                <span class="contact-icon" data-type="email" title="Email">📧</span>
-                <span class="contact-icon" data-type="teams" title="Microsoft Teams">💬</span>
-            </div>
-        </li>
+        <div class="cards">
+            <li>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Cloud Team</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">This team is responsible for creating relevant accounts for MME</h6>
+                        <p class="card-text">Contact via <span class="email">cloudbox.com</span></p>
+                        <div class="contact-icons">
+                            <a href="#" class="card-link contact-icon" data-type="email" title="Email">📧 Email</a>
+                            <a href="#" class="card-link contact-icon" data-type="teams" title="Microsoft Teams">💬 Teams</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </div>
+        <div class="cards">
+            <li>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Development Team</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Contact this team if you are experencing an bug related issues to the application</h6>
+                        <p class="card-text">Contact via <span class="email">devbox.com</span></p>
+                        <div class="contact-icons">
+                            <a href="#" class="card-link contact-icon" data-type="email" title="Email">📧 Email</a>
+                            <a href="#" class="card-link contact-icon" data-type="teams" title="Microsoft Teams">💬 Teams</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </div>
     </ul>
 
     <script>

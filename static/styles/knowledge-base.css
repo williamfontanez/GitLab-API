@@ -1,0 +1,132 @@
+.main-wrapper {
+   margin-left: 280px;  /* Adjust to match the sidebar's width */
+  }
+.title-wrapper{
+    height: 27vh;
+    width: 100%;
+    background-color: tan;
+
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.knowledge-base-title, .knowledge-base-subtext{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.knowledge-base-title{
+    margin-top: 4vh;
+}
+.knowledge-base-subtext{
+    padding-bottom: 3vh;
+}
+
+.flex-shrink-0 {
+    position: fixed; /* Stick it to the left */
+    top: 0; /* Start from the top */
+    left: 0; /* Align to the left side */
+    height: 100vh; /* Make it as tall as the viewport */
+    width: 280px; /* Or whatever width you prefer */
+    overflow-y: auto; /* Add scroll for content overflow */
+    z-index: 1000; /* Ensure it lays over other content */
+  }
+
+/* .middle-column{
+    display: flex;
+    justify-content: space-between ;
+    align-items: center;
+    flex-wrap: wrap;
+} */
+.middle-column {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align items to the start */
+    align-items: flex-start; /* Align items to the top */
+    gap: 20px; /* Adjust space between cards */
+}
+.knowledge-base-content-wrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+    width: 100%;
+}
+
+.cards-tile-wrap{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.knowledge-base-content-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjusts space between cards */
+    justify-content: flex-start; /* Aligns items to the start of the container */
+    width: 60vw;
+}
+
+.cards-tile-wrap .card {
+    flex: 0 1 18rem; /* Flex grow: 0, Flex shrink: 1, Flex basis: 18rem */
+    margin-bottom: 20px; /* Adds space below each card */
+}
+
+@media (max-width: 768px) {
+    .cards-tile-wrap .card {
+        flex-basis: calc(50% - 20px); /* Adjusts card width on smaller screens, subtracting the gap */
+    }
+}
+
+/* Ensures there's enough padding in the main wrapper to accommodate the sidebar */
+.main-wrapper {
+    transition: margin-left 0.3s ease; /* Smoothly transitions the margin change */
+}
+.two-column{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 20px; 
+}
+
+.contact-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3vw; /* Adjusts space between cards */
+    width: 100%; /* Takes the full width of its parent (.middle-column) */
+}
+
+.contact-list .cards {
+    flex: 1 1 18rem; /* Allows cards to grow but bases their initial width on 18rem */
+    margin-bottom: 20px; /* Adds space below each card */
+}
+
+.cards{
+    padding: 0 0;
+}
+
+.card-links{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    justify-content: start;
+    text-decoration: none;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+.suggestion-button button{
+    background-color: #C90404;
+    color: white;
+}
+
+.links{
+    display: flex;
+    flex-direction: column;
+    line-height: 3vh;
+}

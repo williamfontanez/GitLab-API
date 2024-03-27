@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/knowledge-base.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>  
+    <title>Document</title>
+</head>
+<style>
+    .hidden {
+    display: none !important;
+    }
+
+    .shown {
+    display: block !important;
+    }
+</style>
+<body>
+    <div class="modal fade" id="cardDetailModal" tabindex="-1" aria-labelledby="cardDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="cardDetailModalLabel">Card Details</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              This is the details of the process
+              <h5 id="modalCardTitle"></h5>
+              <p id="modalCardDescription"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="d-flex flex-column flex-shrink-0 bg-light sidebar1" style="width: 60px;">
+        <a href="javascript:void(0);" class="toggleSidebar d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+            <div>
+              <i class="fa-solid fa-house"></i>
+            </div>
+        </a>
+        <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+          <li class="nav-item">
+            <a href="#" class="nav-link active py-3 border-bottom" aria-current="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
+              <i class="fa-solid fa-house" aria-label="Home" onclick="window.location.href='index';"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
+              <svg class="bi" width="24" height="24" role="img" aria-label="Ticket Dashboard"><use xlink:href="#speedometer2"></use></svg>
+              <i class="fa-solid fa-ticket" aria-lable="Ticket Dashboard" onclick="window.location.href='ticket-dashboard';"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+              <svg class="bi" width="24" height="24" role="img" aria-label="Orders"><use xlink:href="#table"></use></svg>
+              <i class="fa-regular fa-bell" aria-label="Notifications" onclick="windows.location.href='notifications-dashboard';"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Products">
+              <svg class="bi" width="24" height="24" role="img" aria-label="Products"> <img src="../../static/styles/Contacts.svg" alt=""></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
+              <svg class="bi" width="24" height="24" role="img" aria-label="Customers"><use xlink:href="#people-circle"></use></svg>
+            </a>
+          </li>
+        </ul>
+        <div class="dropdown border-top">
+          <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="mdo" width="24" height="24" class="rounded-circle">
+          </a>
+          <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div>
+    </div>
+    <div class="flex-shrink-0 p-3 bg-white sidebar2" style="width: 280px;">
+        <a href="javascript:void(0);" class="toggleSidebar d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+            <div>
+              <i class="fa-solid fa-house"></i>
+            </div>
+            <span class="fs-5 fw-semibold">TaskForce Tracker</span>
+        </a>
+        <ul class="list-unstyled ps-0">
+          <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+              Home
+            </button>
+            <div class="collapse" id="home-collapse" style="">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-dark rounded">Overview</a></li>
+                <li><a href="#" class="link-dark rounded">Updates</a></li>
+                <li><a href="#" class="link-dark rounded">Reports</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+              Dashboard
+            </button>
+            <div class="collapse" id="dashboard-collapse" style="">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-dark rounded">Overview</a></li>
+                <li><a href="#" class="link-dark rounded">Weekly</a></li>
+                <li><a href="#" class="link-dark rounded">Monthly</a></li>
+                <li><a href="#" class="link-dark rounded">Annually</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+              Orders
+            </button>
+            <div class="collapse" id="orders-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-dark rounded">New</a></li>
+                <li><a href="#" class="link-dark rounded">Processed</a></li>
+                <li><a href="#" class="link-dark rounded">Shipped</a></li>
+                <li><a href="#" class="link-dark rounded">Returned</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="border-top my-3"></li>
+          <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+              Account
+            </button>
+            <div class="collapse" id="account-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-dark rounded">New...</a></li>
+                <li><a href="#" class="link-dark rounded">Profile</a></li>
+                <li><a href="#" class="link-dark rounded">Settings</a></li>
+                <li><a href="#" class="link-dark rounded">Sign out</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    <div class="main-wrapper">
+        <div class="title-wrapper">
+            <div class="knowledge-base-title">
+                <h1>
+                    Knowledge Base
+                </h1>
+            </div>
+            <div class="knowledge-base-subtext">
+                <p>A space to search and browse for answers and documentation.</p>
+            </div>
+        </div>
+        <div class="two-column">
+            <div class="knowledge-base-content-wrapper">
+                <div class="main-tiles middle-column">
+                    <h3>Popular Articles & Resources</h3>
+                    <ul class="contact-list">
+                        <div class="cards cards-tile-wrap">
+                            <li>
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Account Creation</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Explains the account creation process for all MME Accounts</h6>
+                                        <div class="contact-icons card-links">
+                                            <a href="#" class="card-link contact-icon text-muted view-details" title="View" data-card-title="Account Creation" data-card-description="Explains the account creation process for all MME Accounts"><i class="fa-solid fa-eye"></i> View</a>                                            
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Suggest Edit"><i class="fa-regular fa-pen-to-square"></i>Suggest Edit</a>
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Download"><i class="fa-solid fa-download"></i>Download</a>
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Send"><i class="fa-solid fa-envelope"></i>Send</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                        <div class="cards">
+                            <li>
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">GitLab Account Creation</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Explains the account creation process for creating a GitLab Account</h6>
+                                        <div class="contact-icons card-links">
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="email" title="View"><i class="fa-solid fa-eye"></i> View</a>
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Suggest Edit"><i class="fa-regular fa-pen-to-square"></i>Suggest Edit</a>
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Download"><i class="fa-solid fa-download"></i>Download</a>
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Send"><i class="fa-solid fa-envelope"></i>Send</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                        <div class="cards">
+                            <li>
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Azure Account Creation</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Explains the account creation process for creating a Azure Account</h6>
+                                        <div class="contact-icons card-links">
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="email" title="View"><i class="fa-solid fa-eye"></i> View</a>
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Suggest Edit"><i class="fa-regular fa-pen-to-square"></i>Suggest Edit</a>
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Download"><i class="fa-solid fa-download"></i>Download</a>
+                                            <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Send"><i class="fa-solid fa-envelope"></i>Send</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                        <div class="cards">
+                            <li>
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Provision Mobile Device</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Explains the steps to provisioning a device in Intune>
+                                            <div class="contact-icons card-links">
+                                                <a href="#" class="card-link contact-icon text-muted" data-type="email" title="View"><i class="fa-solid fa-eye"></i> View</a>
+                                                <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Suggest Edit"><i class="fa-regular fa-pen-to-square"></i>Suggest Edit</a>
+                                                <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Download"><i class="fa-solid fa-download"></i>Download</a>
+                                                <a href="#" class="card-link contact-icon text-muted" data-type="teams" title="Send"><i class="fa-solid fa-envelope"></i>Send</a>
+                                            </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="right-column">
+                <h3>Common Support Questions</h3>
+                <div class="links">
+                    <a href="#">How do I create a New MME Account?</a>
+                    <a href="#">How do I extend License Length?</a>
+                    <a href="#">What information do I need when requesting for a new MME account?</a>
+                    <a href="#">Who do I contact if there is an error in this applicaion?</a>    
+                </div>
+                <div class="suggestion-button">
+                    <button class="btn main-search" type="submit">Make a Suggestion</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+
+          const sidebar1 = document.querySelector('.sidebar1');
+          const sidebar2 = document.querySelector('.sidebar2');
+          const mainWrapper = document.querySelector('.main-wrapper');
+      
+          sidebar1.style.display = 'block'; 
+          sidebar2.style.display = 'none';
+          mainWrapper.style.marginLeft = '280px';
+      
+
+          function toggleSidebars() {
+            if (window.getComputedStyle(sidebar1).display === 'none') {
+
+              sidebar1.style.display = 'block';
+              sidebar2.style.display = 'none';
+              mainWrapper.style.marginLeft = '280px'; 
+            } else {
+
+              sidebar1.style.display = 'none';
+              sidebar2.style.display = 'block';
+              mainWrapper.style.marginLeft = '4.5rem'; 
+            }
+          }
+      
+
+          document.querySelectorAll('.toggleSidebar').forEach(trigger => {
+            trigger.addEventListener('click', toggleSidebars);
+          });
+        });
+      </script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var viewDetailsLinks = document.querySelectorAll('.view-details');
+      
+          viewDetailsLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+              event.preventDefault();
+              var cardTitle = this.getAttribute('data-card-title');
+              var cardDescription = this.getAttribute('data-card-description');
+      
+              document.getElementById('modalCardTitle').textContent = cardTitle;
+              document.getElementById('modalCardDescription').textContent = cardDescription;
+      
+              var modal = new bootstrap.Modal(document.getElementById('cardDetailModal'));
+              modal.show();
+            });
+          });
+        });
+      </script>
+      <script>
+            document.addEventListener('DOMContentLoaded', function() {
+           
+            const sidebar1 = document.querySelector('.sidebar1');
+            const sidebar2 = document.querySelector('.sidebar2');
+            const mainWrapper = document.querySelector('.main-wrapper');
+            const toggleSidebarButtons = document.querySelectorAll('.toggleSidebar'); 
+
+            function toggleSidebars() {
+                
+                if (sidebar1.style.display === 'none') {
+                
+                sidebar1.style.display = 'block';
+                sidebar2.style.display = 'none';
+                mainWrapper.style.marginLeft = '280px'; 
+                } else {
+                
+                sidebar1.style.display = 'none';
+                sidebar2.style.display = 'block';
+                mainWrapper.style.marginLeft = '60px'; 
+                }
+            }
+
+            
+            toggleSidebarButtons.forEach(btn => btn.addEventListener('click', toggleSidebars));
+
+            
+            toggleSidebars();
+            });
+      </script>
+</body>
+</html>

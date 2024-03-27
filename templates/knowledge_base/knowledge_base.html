@@ -42,14 +42,27 @@
     }
 
     .modal-backdrop.show {
-    opacity: 0.5; /* Adjust backdrop opacity to lighten the screen darkening */
+    opacity: 0.5;
     }
+
+    #knowledgeDetail {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: tan;
+    width: 45%;
+    }
+    .knowledge-item-wrapper{
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+        }
   </style>
 <body>
   <div class="navbar-wrapper">
     <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
         <div class="tft-link-wrapper">
-            <a class="navbar-brand" href="#" style="padding-left: 1vw;">TaskForce Tracker</a>
+            <a class="navbar-brand" onclick="window.location.href='index';" style="padding-left: 1vw;">TaskForce Tracker</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -85,7 +98,7 @@
             </div>
         </div>
     </nav>    
-</div>
+  </div>
     <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -99,7 +112,13 @@
           </div>
         </div>
       </div>
-    <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 10vh 5vw; display: flex; flex-direction: column;">
+      <div class="ticket-search-bar">
+        <form class="form-inline" style="margin-top: 2vh" >
+            <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Find" aria-label="Search" style="width: 84vw;  color: black;">
+            <button class="btn  table-darks mr-sm-2" type="submit" style="margin-left: 2vw;">Clear</button>
+          </form>
+    </div> 
+    <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 2vh 5vw; display: flex; flex-direction: column;">
         <thead style="background-color: #343a40 !important;">
             <tr>
                 <th>Name</th>
@@ -123,15 +142,53 @@
                         <i class="fa-solid fa-envelope"></i>
                     </div>
                 </td>
+            </tr>
+            <tr class="knowledgeItem" data-id="Account Creation Process">
+              <td >GitLab Account Creation</td>
+              <td>Explains how to create a GitLab Account</td>
+              <td>Account Management</td>
+              <td>0/0/0000</td>
+              <td>
+                  <div class="action-item-icons">
+                      <i class="fa-solid fa-eye" data-bs-toggle="modal" data-bs-target="#pdfModal" data-pdf-url="/path/to/your/pdf.pdf"></i>
+                      <i class="fa-regular fa-pen-to-square"></i>
+                      <i class="fa-solid fa-download"></i>
+                      <i class="fa-solid fa-envelope"></i>
+                  </div>
+              </td>
+            </tr>
+            <tr class="knowledgeItem" data-id="Account Creation Process">
+              <td >Azure Account Creation</td>
+              <td>Explains how to create a GitLab Account</td>
+              <td>Account Management</td>
+              <td>0/0/0000</td>
+              <td>
+                  <div class="action-item-icons">
+                      <i class="fa-solid fa-eye" data-bs-toggle="modal" data-bs-target="#pdfModal" data-pdf-url="/path/to/your/pdf.pdf"></i>
+                      <i class="fa-regular fa-pen-to-square"></i>
+                      <i class="fa-solid fa-download"></i>
+                      <i class="fa-solid fa-envelope"></i>
+                  </div>
+              </td>
+            </tr>
+            <tr class="knowledgeItem" data-id="Account Creation Process">
+              <td >Provisioning Mobile Device</td>
+              <td>Explains how to create a GitLab Account</td>
+              <td>Account Management</td>
+              <td>0/0/0000</td>
+              <td>
+                  <div class="action-item-icons">
+                      <i class="fa-solid fa-eye" data-bs-toggle="modal" data-bs-target="#pdfModal" data-pdf-url="/path/to/your/pdf.pdf"></i>
+                      <i class="fa-regular fa-pen-to-square"></i>
+                      <i class="fa-solid fa-download"></i>
+                      <i class="fa-solid fa-envelope"></i>
+                  </div>
+              </td>
+            </tr>
+
         </tbody>
     </table>
-
-    <!-- <div id="knowledgeList">
-      <button class="knowledgeItem" data-id="1">Account Creation Process</button>
-      <button class="knowledgeItem" data-id="2">Knowledge Item 2</button>
-      <!-- Add more knowledge items here -->
-  <!-- </div> -->
-  
+  <div class="knowledge-item-wrapper">
       <div id="knowledgeDetail" style="display: none;">
         <div class="heading" style="display: flex;">
           <h2 id="knowledgeTitle"></h2>
@@ -139,7 +196,7 @@
         </div>
           <h2 id="knowledgeTitle"></h2>
           <p id="knowledgeContent"></p>
-          <button id="openPDF">Open PDF</button>
+          <button  id="openPDF">Open PDF</button>
           <button id="editSuggestion">Suggest Edit</button>
           <button id="sendTo">Send To</button>
           <button id="download">Download</button>
@@ -212,6 +269,7 @@ To continue learning about the Create Agreement process, see About Managing Agre
           </div>
       </div>
     </div>
+  </div>
 <script>
     $(document).ready(function() {
         $("#searchInput").on("keyup", function() {
@@ -236,7 +294,7 @@ To continue learning about the Create Agreement process, see About Managing Agre
 <script>
   $(document).ready(function() {
     $('#openPDF').click(function() {
-      $('#pdfDiv').show(); // Make sure this matches the ID of your div
+      $('#pdfDiv').show();
     });
   });
   </script>
@@ -304,7 +362,7 @@ function displayKnowledgeDetail(id) {
 </script>
 <script>
   $('#openPDF').click(function() {
-      $('#pdfDiv').show(); // This will change the display to 'block'
+      $('#pdfDiv').show();
   });
   </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

@@ -318,7 +318,7 @@ align-items: center;
 
 .ticket-wrapper-checkbox{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     justify-items: center;
 }
@@ -333,6 +333,10 @@ align-items: center;
 .ticket-type button{
     height: 10vh;
     width: 20vw;
+}
+
+.modal-button button{
+    height:6vh;
 }
 
 .access-management-checkbox{
@@ -456,12 +460,15 @@ tr:hover{
 }
 
 .tables th,
-.tables td {
+.tables td
+{
     padding: 0.75rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
     width: 90vw;
+    background-color: #343a40;
 }
+
 
 .table-darks {
     color: #fff;
@@ -569,6 +576,10 @@ tr:hover{
     color: White;
 }
 
+.knowledgeItem button{
+    background-color: var(--almostBlack);
+}
+
 .tiles button:hover, .landing-page-tiles button:hover{
     background-color: var(--Gray);
     border: var(--Gray) solid 1px;
@@ -663,3 +674,14 @@ tr:hover{
 .notification-message {
     margin-top: 5px;
 }
+
+.contact-list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cards{
+    padding: 10vh 5vw;
+}
+

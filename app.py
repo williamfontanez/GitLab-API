@@ -7,7 +7,11 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
 import requests
 from datetime import datetime
+import logging
+from logging.handlers import RotatingFileHandler
+from io import StringIO
 import os
+import html
 
 GITLAB_TOKEN = os.getenv('gitlab_token')
 GITLAB_PROJECT_ID = os.getenv('gitlab_project_id')
@@ -19,6 +23,13 @@ app.secret_key = os.getenv('app_secret_key')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+log_buffer = StringIO()
+
+handler = logging.StreamHandler(log_buffer)
+handler.setLevel(logging.DEBUG)
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.DEBUG)
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
@@ -145,7 +156,7 @@ def index():
 @app.route('/ticket-dashboard')
 def ticket_dashboard():
     page = request.args.get('page', 1, type=int)
-    per_page = 10
+    per_page = 20
 
     headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
     url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all&per_page={per_page}&page={page}'
@@ -154,71 +165,11 @@ def ticket_dashboard():
     if response.status_code == 200:
         issues = response.json()
         return render_template('tickets/tickets_dashboard.html', issues=issues, page=page)
+
     else:
         error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
-        return render_template('tickets/tickets_dashboard.html', error_message=error_message)
-    headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
-    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all'
-
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        issues = response.json()[20:40]
-        return render_template('tickets/tickets_dashboard2.html', issues=issues)
-    else:
-        error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
-        return render_template('tickets/tickets_dashboard2.html', error_message=error_message)
-
-# @app.route('/create_issues', methods=['GET', 'POST'])
-# def create_issues():
-#     if request.method == 'POST':
-#         title = request.form['title']
-#         description = request.form['description']
-#         headers = {
-#             'PRIVATE-TOKEN': GITLAB_TOKEN,
-#             'Content-Type': 'application/json'
-#         }
-#         url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues'
-#         data = {
-#             'title': title,
-#             'description': description
-#         }
-#         response = requests.post(url, headers=headers, json=data)
-#         if response.status_code == 201:
-#             return render_template('tickets/tickets_dashboard.html', title=title)
-#         else:
-#             error_message = f"Failed to create issue in GitLab. Status Code: {response.status_code}"
-#             return render_template('tickets/create_issue_form.html', error=error_message)
-
-# @app.route('/create_issues', methods=['GET', 'POST'])
-# def create_issues():
-#     if request.method == 'POST':
-#         title = request.form['title']
-#         description = request.form['description']
-#         headers = {
-#             'PRIVATE-TOKEN': GITLAB_TOKEN,
-#             'Content-Type': 'application/json'
-#         }
-#         url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues'
-#         data = {
-#             'title': title,
-#             'description': description
-#         }
-#         response = requests.post(url, headers=headers, json=data)
-#         if response.status_code == 201:
-#             # If the ticket is successfully created in GitLab, create a notification
-#             notification_title = "New GitLab Ticket"
-#             notification_message = f"New ticket was created: {title}"
-#             new_notification = Notification(title=notification_title, message=notification_message)
-#             db.session.add(new_notification)
-#             db.session.commit()
-
-#             return render_template('tickets/tickets_dashboard.html', title=title)
-#         else:
-#             error_message = f"Failed to create issue in GitLab. Status Code: {response.status_code}"
-#             return render_template('tickets/create_issue_form.html', error=error_message)
-
-
-# actal
+        # Make sure to include 'page' variable here as well
+        return render_template('tickets/tickets_dashboard.html', error_message=error_message, page=page)
 
 @app.route('/create_issue', methods=['GET', 'POST'])
 def create_issue():
@@ -230,6 +181,7 @@ def create_issue():
             'Content-Type': 'application/json'
         }
         url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues'
+        # url = f'https://gitlab.uatn.net/api/v4/projects/{GITLAB_PROJECT_ID}/issues'
         data = {
             'title': title,
             'description': description
@@ -261,6 +213,7 @@ def create_issue():
 def total_issues():
     headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
     url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all'
+    # url = f'https://gitlab.uatn.net/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all'
 
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
@@ -280,6 +233,8 @@ def ticket_issue():
 def check_watch_tickets():
     headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
     url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?labels=Watch'
+    # url = f'https://gitlab.uatn.net/api/v4/projects/{GITLAB_PROJECT_ID}/issues?labels=Watch'
+
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         issues = response.json()
@@ -320,9 +275,17 @@ def mark_as_read():
         return jsonify({'success': True})
     return jsonify({'error': 'Notification not found'}), 404
 
+@app.route('/search')
+def search():
+    return render_template('search.html')
+
 @app.route('/knowledge-base')
 def knowledge_base():
     return render_template('knowledge_base/knowledge_base.html')
+    
+@app.route('/knowledge-base-2')
+def knowledge_base_2():
+    return render_template('knowledge_base/knowledge-base-v2-sidebar1.html')
 
 @app.route('/profile')
 def profile():
@@ -332,6 +295,38 @@ def profile():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/ticket-dashboard-debug')
+def ticket_dashboard_debug():
+    project_id = GITLAB_PROJECT_ID
+    token = GITLAB_TOKEN
+    url = f"https://gitlab.uatn.net/api/v4/projects/{project_id}/issues?private_token={token}" #adding headers in url
+    # headers = {"PRIVATE-TOKEN": token}
+    data = {"title": "Test Issue", "description": "Creating an issue via API"}
+
+    # response = requests.post(url, headers=headers, data=data)
+    response = requests.post(url, data=data)
+
+    # Preparing debug information
+    request_headers = html.escape(str(response.request.headers))
+    request_body = html.escape(str(response.request.body))
+    response_status_code = response.status_code
+    response_body = html.escape(response.text)
+
+    # Create a simple HTML to display the debug information
+    debug_info_html = f"""
+    <html>
+        <body>
+            <h2>Debug Information for API Call</h2>
+            <p><strong>Request Headers:</strong> {request_headers}</p>
+            <p><strong>Request Body:</strong> {request_body}</p>
+            <p><strong>Response Status Code:</strong> {response_status_code}</p>
+            <p><strong>Response Body:</strong> {response_body}</p>
+        </body>
+    </html>
+    """
+    
+    return debug_info_html
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000, ssl_context=('ssl_context/localhost.pem', 'ssl_context/localhost-key.pem'))
