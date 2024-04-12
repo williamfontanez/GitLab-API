@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>Ticket Dashboard</title>
+    <title>Panacea</title>
     <style>
         .hidden {
             display: none;
@@ -14,47 +14,51 @@
 
     </style>
 </head>
+
 <body>
-    <div class="navbar-wrapper">
-        <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
-            <div class="tft-link-wrapper">
-                <a class="navbar-brand" onclick="window.location.href='index';"  style="padding-left: 1vw;">TaskForce Tracker</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarsExample06">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href='ticket-dashboard';">Ticket Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href='reports-dashboard';">Reports</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href='notifications-dashboard';">Notifications</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href='knowledge-base';">Knowledge Base</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="collapse navbar-collapse navbar-end dropdown" id="navbarsExample06">
-                    <h3 class="username nav-item">{{current_user.username}}</h3>
-                    <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle"id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa-solid fa-user"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-content" aria-labelledby="dropdown06">
-                        <a class="dropdown-item" onclick="window.location.href='profile';">Profile</a>
-                        <a class="dropdown-item" onclick="window.location.href='logout';">Logout</a>
-                        </div>
-                    </li>
-                    </ul>
-                </div>
+  <div class="navbar-wrapper">
+    <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
+        <div class="tft-link-wrapper">
+            <a class="navbar-brand" onclick="window.location.href='index';" style="padding-left: 1vw;">Panacea</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarsExample06" style="display: flex; justify-content: space-around;">
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" onclick="window.location.href='ticket-dashboard';" style="cursor: pointer;">Ticket Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="window.location.href='ticket-dashboard-v2';" style="cursor: pointer;">Ticket Dashboard V2</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="window.location.href='reports-dashboard';" style="cursor: pointer;">Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="window.location.href='notifications-dashboard';" style="cursor: pointer;">Notifications</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="window.location.href='knowledge-base';" style="cursor: pointer;">Knowledge Base</a>
+                </li>
+                </ul>
             </div>
-        </nav>    
-    </div>
+            <div class="collapse navbar-collapse navbar-end dropdown" id="navbarsExample06">
+                <h3 class="username nav-item">{{current_user.username}}</h3>
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-content" aria-labelledby="dropdown06">
+                    <a class="dropdown-item" onclick="window.location.href='profile';">Profile</a>
+                    <a class="dropdown-item" onclick="window.location.href='logout';">Logout</a>
+                    </div>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </nav>    
+</div>
     <div class="ticket-wrapper" style="margin-top: 5vh; margin-bottom: 5vh;">
         <div class="ticket-type">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="color: white; background-color: #C90404; border-color: #C90404;">
@@ -123,15 +127,15 @@
             </div>      -->
         </div>
         <div class="ticket-search-bar">
-            <form class="form-inline" >
+            <form class="form-inline" style="margin-top: 2vh; margin-bottom: 4vh;">
                 <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Find" aria-label="Search" style="width: 84vw;  color: black;">
                 <button class="btn  table-darks mr-sm-2" type="submit" style="margin-left: 2vw;">Clear</button>
               </form>
         </div> 
-        <div class="all-tickets">
+        <div class="all-tickets" style="margin-top: 2vh;">
             <div class="open-tickets closed-tickets watched-tickets">
-                <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 0vh 5vw 5vh 5vw;">
-                    <tr style="background-color: #343a40 !important;">
+                <table class="table table-darks table-hovers" id="dataTable" style=" table-layout: fixed; width: 90vw; margin: 4vh 5vw;">
+                    <tr style="background-color: #343a40 !important; margin-top: 2vh;">
                         <th>Title</th>
                         <th>Description</th>
                         <th>Created At</th>

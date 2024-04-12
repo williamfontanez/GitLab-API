@@ -156,6 +156,26 @@ def index():
 @app.route('/ticket-dashboard')
 def ticket_dashboard():
     page = request.args.get('page', 1, type=int)
+    search_query = request.args.get('search', '')  # Get the search parameter from the query string
+    per_page = 20
+
+    headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
+    url = f'https://gitlab.com/api/v4/projects/{GITLAB_PROJECT_ID}/issues?scope=all&per_page={per_page}&page={page}'
+
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        issues = response.json()
+        if search_query:
+            issues = filter_tickets_by_search_query(issues, search_query)  # Filter issues based on the search query
+            if not issues:
+                flash('There are no tickets with that information.')
+                # Logic to ask to create a ticket, go to the ticket_dashboard.html, or close the flash alert
+        return render_template('tickets/tickets_dashboard.html', issues=issues, page=page, search_query=search_query)
+    else:
+        error_message = f"Failed to fetch issues from GitLab. Status Code: {response.status_code}"
+        return render_template('tickets/tickets_dashboard.html', error_message=error_message, page=page)
+
+    page = request.args.get('page', 1, type=int)
     per_page = 20
 
     headers = {'PRIVATE-TOKEN': GITLAB_TOKEN}
@@ -247,6 +267,10 @@ def check_watch_tickets():
 def reports_a():
     return render_template('reports/report-a.html')
 
+@app.route('/ticket-dashboard-v2')
+def ticket_dashboard_b2():
+    return render_template('tickets/ticket_dashboard_v2.html')
+
 @app.route('/reports-dashboard')
 def reports_dashboard():
     return render_template('reports/reports_dashboard.html')
@@ -283,11 +307,16 @@ def search():
 def knowledge_base():
     return render_template('knowledge_base/knowledge_base.html')
     
-@app.route('/knowledge-base-2')
+@app.route('/knowledge-base-1')
 def knowledge_base_2():
     return render_template('knowledge_base/knowledge-base-v2-sidebar1.html')
 
+@app.route('/knowledge-base-2')
+def knowledge_base_3():
+    return render_template('knowledge_base/knowledge-base-v2-sidebar2.html')
+
 @app.route('/profile')
+@login_required
 def profile():
     return render_template('profile/profile.html')
 

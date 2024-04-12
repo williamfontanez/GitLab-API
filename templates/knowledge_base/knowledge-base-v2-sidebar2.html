@@ -13,12 +13,11 @@
 </head>
 <style>
     .hidden {
-    display: none !important; 
+    display: none !important;
     }
 
     .shown {
-    display: block !important; 
-    
+    display: block !important;
     }
 </style>
 <body>
@@ -40,38 +39,36 @@
           </div>
         </div>
       </div>
-    <div class="d-flex flex-column flex-shrink-0 bg-light sidebar1" style="width: 60px;">
-        <a href="javascript:void(0);" class="toggleSidebar d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-            <div>
-              <i class="fa-solid fa-house"></i>
-            </div>
-        </a>
+      <div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 3.5vw;">
         <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
           <li class="nav-item">
-            <a href="#" class="nav-link active py-3 border-bottom" aria-current="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
-              <i class="fa-solid fa-house" aria-label="Home" onclick="window.location.href='index';"></i>
+            <a onclick="window.location.href='knowledge-base-1';" class="nav-link active py-3 border-bottom" aria-current="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
+              <i class="fa-solid fa-p bi" width="24" height="24" role="img" aria-label="Dashboard"></i>
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
-              <svg class="bi" width="24" height="24" role="img" aria-label="Ticket Dashboard"><use xlink:href="#speedometer2"></use></svg>
-              <i class="fa-solid fa-ticket" aria-lable="Ticket Dashboard" onclick="window.location.href='ticket-dashboard';"></i>
+            <a onclick="window.location.href='index';"class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
+              <i class="fa-solid fa-house bi" width="24" height="24" role="img" aria-label="Dashboard"></i>
             </a>
           </li>
           <li>
             <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
-              <svg class="bi" width="24" height="24" role="img" aria-label="Orders"><use xlink:href="#table"></use></svg>
-              <i class="fa-regular fa-bell" aria-label="Notifications" onclick="windows.location.href='notifications-dashboard';"></i>
+              <i class="fa-solid fa-ticket bi" width="24" height="24" role="img" aria-label="Dashboard"></i>
             </a>
           </li>
           <li>
             <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Products">
-              <svg class="bi" width="24" height="24" role="img" aria-label="Products"> <img src="../../static/styles/Contacts.svg" alt=""></svg>
+              <i class="fa-solid fa-chart-simple bi" width="24" height="24" role="img" aria-label="Dashboard"></i>
             </a>
           </li>
           <li>
             <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
-              <svg class="bi" width="24" height="24" role="img" aria-label="Customers"><use xlink:href="#people-circle"></use></svg>
+              <i class="fa-solid fa-bell bi" width="24" height="24" role="img" aria-label="Dashboard"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
+              <i class="fa-solid fa-book bi" width="24" height="24" role="img" aria-label="Dashboard"></i>
             </a>
           </li>
         </ul>
@@ -87,70 +84,8 @@
             <li><a class="dropdown-item" href="#">Sign out</a></li>
           </ul>
         </div>
-    </div>
-    <div class="flex-shrink-0 p-3 bg-white sidebar2" style="width: 280px;">
-        <a href="javascript:void(0);" class="toggleSidebar d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-            <div>
-              <i class="fa-solid fa-house"></i>
-            </div>
-            <span class="fs-5 fw-semibold">TaskForce Tracker</span>
-        </a>
-        <ul class="list-unstyled ps-0">
-          <li class="mb-1">
-            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
-              Home
-            </button>
-            <div class="collapse" id="home-collapse" style="">
-              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="link-dark rounded">Overview</a></li>
-                <li><a href="#" class="link-dark rounded">Updates</a></li>
-                <li><a href="#" class="link-dark rounded">Reports</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="mb-1">
-            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-              Dashboard
-            </button>
-            <div class="collapse" id="dashboard-collapse" style="">
-              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="link-dark rounded">Overview</a></li>
-                <li><a href="#" class="link-dark rounded">Weekly</a></li>
-                <li><a href="#" class="link-dark rounded">Monthly</a></li>
-                <li><a href="#" class="link-dark rounded">Annually</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="mb-1">
-            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-              Orders
-            </button>
-            <div class="collapse" id="orders-collapse">
-              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="link-dark rounded">New</a></li>
-                <li><a href="#" class="link-dark rounded">Processed</a></li>
-                <li><a href="#" class="link-dark rounded">Shipped</a></li>
-                <li><a href="#" class="link-dark rounded">Returned</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="border-top my-3"></li>
-          <li class="mb-1">
-            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-              Account
-            </button>
-            <div class="collapse" id="account-collapse">
-              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="link-dark rounded">New...</a></li>
-                <li><a href="#" class="link-dark rounded">Profile</a></li>
-                <li><a href="#" class="link-dark rounded">Settings</a></li>
-                <li><a href="#" class="link-dark rounded">Sign out</a></li>
-              </ul>
-            </div>
-          </li>
-        </ul>
       </div>
-    <div class="main-wrapper">
+    <div class="main-wrapper" style="margin-left: 3.5vw;">
         <div class="title-wrapper">
             <div class="knowledge-base-title">
                 <h1>
@@ -249,39 +184,6 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
-    <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-          
-          const sidebar1 = document.querySelector('.sidebar1');
-          const sidebar2 = document.querySelector('.sidebar2');
-          const mainWrapper = document.querySelector('.main-wrapper');
-      
-          
-          sidebar1.style.display = 'block';
-          sidebar2.style.display = 'none'; 
-          mainWrapper.style.marginLeft = '280px'; 
-      
-          
-          function toggleSidebars() {
-            if (window.getComputedStyle(sidebar1).display === 'none') {
-              
-              sidebar1.style.display = 'block';
-              sidebar2.style.display = 'none';
-              mainWrapper.style.marginLeft = '280px'; 
-            } else {
-              
-              sidebar1.style.display = 'none';
-              sidebar2.style.display = 'block';
-              mainWrapper.style.marginLeft = '4.5rem'; 
-            }
-          }
-      
-          
-          document.querySelectorAll('.toggleSidebar').forEach(trigger => {
-            trigger.addEventListener('click', toggleSidebars);
-          });
-        });
-      </script>
       <script>
         document.addEventListener('DOMContentLoaded', function() {
           var viewDetailsLinks = document.querySelectorAll('.view-details');
@@ -301,15 +203,14 @@
           });
         });
       </script>
-      <script>
+      <!-- <script>
             document.addEventListener('DOMContentLoaded', function() {
-            
+           
             const sidebar1 = document.querySelector('.sidebar1');
             const sidebar2 = document.querySelector('.sidebar2');
             const mainWrapper = document.querySelector('.main-wrapper');
             const toggleSidebarButtons = document.querySelectorAll('.toggleSidebar'); 
 
-            
             function toggleSidebars() {
                 
                 if (sidebar1.style.display === 'none') {
@@ -325,10 +226,12 @@
                 }
             }
 
+            
             toggleSidebarButtons.forEach(btn => btn.addEventListener('click', toggleSidebars));
 
+            
             toggleSidebars();
             });
-      </script>
+      </script> -->
 </body>
 </html>

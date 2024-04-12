@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>TaskForce Tracker</title>
+    <title>Panacea</title>
     <style>
         .hidden {
             display: none;
@@ -17,23 +17,23 @@
     <div class="navbar-wrapper">
         <nav class="tft-navbar navbar-expand navbar-dark bg-dark">
             <div class="tft-link-wrapper">
-                <a class="navbar-brand" href="#" style="padding-left: 1vw;">TaskForce Tracker</a>
+                <a class="navbar-brand" onclick="window.location.href='index';" style="padding-left: 1vw;">Panacea</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarsExample06">
+                <div class="collapse navbar-collapse" id="navbarsExample06" style="display: flex; justify-content: space-around;">
                     <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" onclick="window.location.href='ticket-dashboard';">Ticket Dashboard</a>
+                        <a class="nav-link" onclick="window.location.href='ticket-dashboard';" style="cursor: pointer;">Ticket Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="window.location.href='reports-dashboard';">Reports</a>
+                        <a class="nav-link" onclick="window.location.href='reports-dashboard';" style="cursor: pointer;">Reports</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="window.location.href='notifications-dashboard';">Notifications</a>
+                        <a class="nav-link" onclick="window.location.href='notifications-dashboard';" style="cursor: pointer;">Notifications</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="window.location.href='knowledge-base';">Knowledge Base</a>
+                        <a class="nav-link" onclick="window.location.href='knowledge-base';" style="cursor: pointer;">Knowledge Base</a>
                     </li>
                     </ul>
                 </div>
@@ -54,11 +54,12 @@
             </div>
         </nav>    
     </div>
-        <div class="search-bar-wrapper landing-search landing-parallax-image" id="navbarsExample02">
-            <form class="form-inline my-3 my-md-0">
+    
+        <div class="landing-search landing-parallax-image" style="display: flex;" id="navbarsExample02">
+            <form class="form-inline my-3 my-md-0 search-bar-wrapper " action="/ticket-dashboard" method="get">
                 <input class="form-control" type="text" id="searchInputHome" placeholder="Search">
+                <button class="btn main-search" type="submit">Search</button>
             </form>
-            <button class="btn main-search" type="submit">Search</button>
         </div>
         <div class="tiles">
             <!-- TODO: Make contacts page and switch out -->
@@ -87,38 +88,30 @@
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
-                    <div class="modal-header" style="height: 2.5vw;">
-                      <h5 class="modal-title" id="exampleModalLabel">Create Access Management Ticket</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw; background-color: white; border: none;"></button>
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Create Ticket</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw; height: 6vh; background-color: #fff; border: #fff;"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <form class="needs-validation" novalidate="" action="/create_issue" method="post" id="issueForm">
-                                <div class="col-md-12 mb-3 access-management-checkbox">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="createGitLabAccountCheckbox">
-                                        <label class="form-check-label" for="createGitLabAccountCheckbox">
-                                          Create GitLab Account
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="createAzureAccountCheckbox">
-                                        <label class="form-check-label" for="createAzureAccountCheckbox">
-                                            Create Azure Account
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="deleteGitLabAccountCheckbox">
-                                        <label class="form-check-label" for="deleteGitLabAccountCheckbox">
-                                          Delete GitLab Account
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="deleteAzureAccountCheckbox">
-                                        <label class="form-check-label" for="deleteAzureAccountCheckbox">
-                                          Delete Azure Account
-                                        </label>
-                                    </div> 
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="openTicketsCheckbox">
+                                    <label class="form-check-label" for="openTicketsCheckbox">
+                                      Create New Account
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="openTicketsCheckbox">
+                                    <label class="form-check-label" for="openTicketsCheckbox">
+                                      Modify Account
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="openTicketsCheckbox">
+                                    <label class="form-check-label" for="openTicketsCheckbox">
+                                      Delete Account
+                                    </label>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="title">Title</label>
@@ -129,8 +122,9 @@
                                     <textarea id="description" class="form-control" name="description" rows="4" required></textarea>
                                 </div>
                                 <input type="checkbox" name="watch" id="watchTicket"> Watch Ticket<br>
-                                <div class="modal-footer" style="display: flex; justify-content: center;">
-                                    <button class="btn btn-lg btn-block" type="submit" data-bs-dismiss="modal" aria-label="Close" style="color: white; background-color: #C90404; border-color: #C90404; height: 6vh"">
+                                <div class="modal-footer modal-button" style="display: flex; justify-content: center;">
+
+                                    <button class="btn" type="submit" data-bs-dismiss="modal" aria-label="Close" style="display: flex; justify-content: center; align-items: center; color: white; background-color: #C90404; border-color: #C90404; height: 6vh">
                                         Submit Ticket
                                     </button>
                                 </div>
@@ -153,21 +147,22 @@
             </button>
             <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header" style="height: 2.5vw;">
-                      <h5 class="modal-title" " id="exampleModalLabel">Create Ticket</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw; background-color: white; border: none;"></button>
+                  <div class="modal-content" >
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Create Ticket</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw; height: 6vh; background-color: #fff; border: #fff;"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <form class="needs-validation" novalidate="" action="/create_issue" method="post" id="issueForm">
+                            <form class="needs-validation" novalidate="" action="/create_issue" method="post" id="issueForm2">
                                 <div class="col-md-12 mb-3">
                                     <select name="issueType" id="issueType">
-                                        <option value="ticket-type-name">Something is Broken, Not Working, Need assistance</option>
+                                        <option value="ticket-type-name">Select ticket type</option>
                                         <option value="ticket-type-name">Hardware/Network</option>
-                                        <option value="ticket-type-name">Access Management</option>
-                                        <option value="ticket-type-name">Mobile Provisioning</option>
-                                        <option value="ticket-type-name">Firewall Configuration</option>
+                                        <option value="ticket-type-name">Access management</option>
+                                        <option value="ticket-type-name">Mobile provisioning</option>
+                                        <option value="ticket-type-name">Firewall configuration</option>
+                                        <option value="ticket-type-name">Something is broken, not working,need assistance</option>
                                     </select>
                                 </div>
                                 <div class="col-md-12 mb-3">
@@ -179,8 +174,9 @@
                                     <textarea id="description" class="form-control" name="description" rows="4" required></textarea>
                                 </div>
                                 <input type="checkbox" name="watch" id="watchTicket"> Watch Ticket<br>
-                                <div class="modal-footer" style="display: flex; justify-content: center;">
-                                    <button class="btn btn-lg btn-block" type="submit" data-bs-dismiss="modal" aria-label="Close" style="color: white; background-color: #C90404; border-color: #C90404; height: 6vh">
+                                <div class="modal-footer modal-button" style="display: flex; justify-content: center;">
+
+                                    <button class="btn" type="submit" data-bs-dismiss="modal" aria-label="Close" style="display: flex; justify-content: center; align-items: center; color: white; background-color: #C90404; border-color: #C90404; height: 6vh">
                                         Submit Ticket
                                     </button>
                                 </div>
@@ -205,7 +201,7 @@
             });
         });   
     </script>
-    <script>
+    <!-- <script>
         $(document).ready(function(){
             $("#searchInput").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
@@ -221,12 +217,51 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.href = '/search';
     });
 });
+</script> -->
+<script>
+    $(document).ready(function() {
+        $('#issueForm').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/create_issue",
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert(response.message);
+                    $('#exampleModal').modal('hide');
+                },
+                error: function(xhr, status, error) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        });
+    });
 </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#issueForm2').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/create_issue",
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert(response.message);
+                    $('#exampleModal2').modal('hide');
+                },
+                error: function(xhr, status, error) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> 
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="../../assets/js/vendor/popper.min.js"></script>
+<script src="../../dist/js/bootstrap.min.js"></script> -->
 </body>
 </html>
 

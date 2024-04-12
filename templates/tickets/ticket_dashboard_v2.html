@@ -6,7 +6,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <script src="https://kit.fontawesome.com/5607dd1191.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Panacea</title>
 </head>
 <body>
@@ -19,6 +18,17 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarsExample06" style="display: flex; justify-content: space-around;">
                     <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='ticket-dashboard';" style="cursor: pointer;">Ticket Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='ticket-dashboard-v2';" style="cursor: pointer;">Ticket Dashboard V2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='reports-dashboard';" style="cursor: pointer;">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.href='notifications-dashboard';" style="cursor: pointer;">Notifications</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" onclick="window.location.href='knowledge-base';" style="cursor: pointer;">Knowledge Base</a>
@@ -42,47 +52,11 @@
             </div>
         </nav>    
     </div>
-    
-    <ul class="contact-list">
-        <div class="cards">
-            <li>
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Cloud Team</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">This team is responsible for creating relevant accounts for MME</h6>
-                        <p class="card-text">Contact via <span class="email">cloudbox.com</span></p>
-                        <div class="contact-icons">
-                            <a href="#" class="card-link contact-icon" data-type="email" title="Email">📧 Email</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </div>
-        <div class="cards">
-            <li>
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Development Team</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Contact this team if you are experencing an bug related issues to the application</h6>
-                        <p class="card-text">Contact via <span class="email">devbox.com</span></p>
-                        <div class="contact-icons">
-                            <a href="#" class="card-link contact-icon" data-type="email" title="Email">📧 Email</a>
-                            <a href="#" class="card-link contact-icon" data-type="teams" title="Microsoft Teams">📱 910.365.2548</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </div>
-    </ul>
+    <div class="report-a">
+        <img src="../../static/styles/ticket-view.jpg" alt="">
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> 
 
-    <script>
-        document.querySelectorAll('.contact-icon').forEach(item => {
-            item.addEventListener('click', event => {
-            const contactType = item.getAttribute('data-type');
-            const email = item.closest('li').querySelector('.email').textContent;
-            alert(`Open ${contactType} to send a message to ${email}`);
-    });
-});
-    </script>
 </body>
 </html>
